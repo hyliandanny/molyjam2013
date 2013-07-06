@@ -14,18 +14,6 @@ public class DynamicPhysicsMesh : DynamicMesh {
 	
 	}
 	new public void Generate(Vector2[] curve) {
-		MeshFilter mf = gameObject.GetComponent<MeshFilter>();
-		if(!mf.sharedMesh) {
-			mf.sharedMesh = new Mesh();
-		}
-		MeshCollider mc = gameObject.GetComponent<MeshCollider>();
-		if(!mc.sharedMesh) {
-			mc.sharedMesh = mf.sharedMesh;
-		}
-		Mesh mesh = mf.sharedMesh;
-		//create a cube for now
-		mesh.Clear();
-		
 		int segments = curve.Length-1;
 		Vector3[] vertices = new Vector3[4*segments];
 		int[] tris = new int[3*vertices.Length];
@@ -43,9 +31,19 @@ public class DynamicPhysicsMesh : DynamicMesh {
 			tris[i*6+4] 	= 1+i*4;
 			tris[i*6+5] 	= 3+i*4;
 		}
-        mesh.vertices = vertices;
-        mesh.triangles = tris;
-		mesh.RecalculateNormals();
-		mesh.RecalculateBounds();
+		MeshFilter mf = gameObject.GetComponent<MeshFilter>();
+		if(!mf.sharedMesh) {
+			mf.sharedMesh = new Mesh();
+		}
+		mf.sharedMesh.Clear();
+		
+		mf.sharedMesh.vertices = vertices;
+		mf.sharedMesh.triangles = tris;
+        mf.sharedMesh.RecalculateNormals();
+		mf.sharedMesh.RecalculateBounds();
+		
+		MeshCollider mc = gameObject.GetComponent<MeshCollider>();
+		mc.sharedMesh = null;
+		mc.sharedMesh = mf.sharedMesh;
 	}
 }
