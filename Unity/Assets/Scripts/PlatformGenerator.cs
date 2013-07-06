@@ -12,6 +12,17 @@ public class PlatformGenerator : MonoBehaviour {
 	DynamicRenderMesh border;
 	DynamicPhysicsMesh physics;
 	
+	public float mEndHeight;
+	public float mStartHeight;
+	public float EndY() {
+		return transform.position.y + mEndHeight;
+	}
+	public float EndX() {
+		return transform.position.x + mLength;
+	}
+	public float StartY() {
+		return mStartHeight;
+	}
 	public void GeneratePlatform() {
 		if(mLength < 0) {
 			mLength = 0;
@@ -54,14 +65,7 @@ public class PlatformGenerator : MonoBehaviour {
 		physics.Generate(curve);
 		foreground.Generate(curve);
 		border.Generate(curve);
-	}
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+		mStartHeight = curve[0].y;
+		mEndHeight = curve[curve.Length-1].y;
 	}
 }
