@@ -156,7 +156,7 @@ public class CharacterController2D : MonoBehaviour
  
 	}
  
-	void OnDeath ()
+	public void OnDeath ()
 	{
 		Spawn ();
 	}

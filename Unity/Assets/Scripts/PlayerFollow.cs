@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class CameraFollow : MonoBehaviour {
+public class PlayerFollow : MonoBehaviour {
 	
 	public Transform character;
 
