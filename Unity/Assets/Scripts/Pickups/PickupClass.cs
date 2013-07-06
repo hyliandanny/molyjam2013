@@ -23,12 +23,10 @@ public class PickupClass : MonoBehaviour {
 		// Pickup has been picked up by player?
 		if (obj is CharacterController)
 		{
-			// Trigger the next stage queue theme
+			// have the manager process the pickup and handle everything a dumb pickup itself shouldn't know about
+			PickupManager.instance.OnPickup(obj.gameObject);
 			
-			Debug.Log("Pickup!");
-			// Play the pickup sound
-			
-			// Remove this pickup
+			// Your life is over, pickup.  Time to die.
 			Destroy(gameObject);
 		}
 	}
