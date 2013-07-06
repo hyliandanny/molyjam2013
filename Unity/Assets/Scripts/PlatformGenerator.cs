@@ -7,22 +7,10 @@ public class PlatformGenerator : MonoBehaviour {
 	//Dimensions: These are in real world space
 	//Length
 	public float mLength;
-	//Height
-	public float mHeight;
 	
 	DynamicRenderMesh foreground;
 	DynamicRenderMesh border;
 	DynamicPhysicsMesh physics;
-	
-	//Smoothness
-	// 1 is for super smooth
-	// 0 is for super jagged
-	public float mSmoothness;
-	//Variation
-	// this is the height variation in the 
-	public float mVariation;
-	//frequency
-	public float mFrequency;
 	
 	public void GeneratePlatform() {
 		if(mLength < 0) {

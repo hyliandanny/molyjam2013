@@ -1,8 +1,15 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CurveGenerator : MonoBehaviour {
 	static CurveGenerator mInstance;
+	public int mNumberOfCurves;
+	public List<float> amplitudes;
+	public List<float> frequencies;
+	public List<float> phases;
+	public List<float> weights;
+	
 	public static CurveGenerator Instance {
 		get {
 			if(!mInstance) {
@@ -19,8 +26,15 @@ public class CurveGenerator : MonoBehaviour {
 		float delta = length/samples;
 		Vector2[] curve = new Vector2[samples+1];
 		for(int i = 0; i < curve.Length; i++) {
-			curve[i] = new Vector2(i*delta,Mathf.Sin(startX+i*delta)+2);
+			curve[i] = new Vector2(i*delta,GetY(startX+i*delta));
 		}
 		return curve;
+	}
+	float GetY(float x) {
+		float y = 0;
+		for(int i = 0; i < mNumberOfCurves; i++) {
+			y += weights[i]*amplitudes[i]*Mathf.Sin(frequencies[i]*x+phases[i]);
+		}
+		return y;
 	}
 }
