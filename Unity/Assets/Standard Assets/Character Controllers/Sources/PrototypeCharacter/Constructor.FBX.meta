@@ -129,12 +129,13 @@ ModelImporter:
     7400018: jump_pose
     11100000: //RootNode
     13700000: Bip001 Pelvis
+    13700002: construction_worker
   materials:
     importMaterials: 1
     materialName: 3
     materialSearch: 1
   animations:
-    legacyGenerateAnimations: 3
+    legacyGenerateAnimations: 4
     bakeSimulation: 0
     animationCompression: 0
     animationRotationError: .5
@@ -209,7 +210,7 @@ ModelImporter:
       takeName: 
       firstFrame: 118
       lastFrame: 123
-      wrapMode: 0
+      wrapMode: 8
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0

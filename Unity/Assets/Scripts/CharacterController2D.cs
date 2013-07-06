@@ -164,6 +164,9 @@ public class CharacterController2D : MonoBehaviour
 	void UpdateSmoothedMovementDirection ()
 	{	
 		float h = Input.GetAxisRaw ("Horizontal");
+		
+		// Forever runner!
+		h = 1.0f;
  
 		if (!canControl)
 			h = 0.0f;
@@ -284,7 +287,7 @@ public class CharacterController2D : MonoBehaviour
 		jump.lastTime = Time.time;
 		jump.lastStartHeight = transform.position.y;
 		jump.lastButtonTime = -10f;
-		animation.CrossFade("jump");
+		//animation.CrossFade("jump");
 	}
  
 	void UpdateEffects ()
@@ -385,6 +388,10 @@ public class CharacterController2D : MonoBehaviour
 		}
 		else if(!IsMoving() && Mathf.Abs(movement.velocity.x) < 0.5f && !IsJumping()) {
 			animation.CrossFade("idle");
+		}
+		else if(IsJumping()) {
+			if(!animation.IsPlaying("jump"))
+				animation.Play("jump");
 		}
 	}
  
