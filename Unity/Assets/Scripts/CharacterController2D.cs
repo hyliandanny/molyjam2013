@@ -254,6 +254,7 @@ public class CharacterController2D : MonoBehaviour
 		if (jump.canDoubleJump && Input.GetButtonDown ("Jump") && !IsTouchingCeiling ()) {
 			jump.doubleJumping = true;
 			movement.verticalSpeed = CalculateJumpVerticalSpeed (jump.doubleJumpHeight);
+			SendMessage ("DidDoubleJump", SendMessageOptions.DontRequireReceiver);
 			jump.canDoubleJump = false;
  
 		}
