@@ -25,6 +25,21 @@ public class PlatformGenerator : MonoBehaviour {
 	public float mFrequency;
 	
 	public void GeneratePlatform() {
+		if(mLength < 0) {
+			mLength = 0;
+		}
+		foreach(Transform t in transform) {
+			if(t.name == "foreground") {
+				foreground = t.GetComponent<DynamicRenderMesh>();
+			}
+			else if(t.name == "border") {
+				border = t.GetComponent<DynamicRenderMesh>();
+			}
+			else if(t.name == "physics") {
+				physics = t.GetComponent<DynamicPhysicsMesh>();
+			}
+		}
+		
 		if(foreground == null) {
 			GameObject go = new GameObject("foreground");
 			go.transform.parent = transform;

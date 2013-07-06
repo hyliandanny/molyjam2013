@@ -5,14 +5,6 @@ using System.Collections;
 public class DynamicRenderMesh : DynamicMesh {
 	static float borderHeight = 0.5f;
 	new public void Generate(Vector2[] curve) {
-		MeshFilter mf = gameObject.GetComponent<MeshFilter>();
-		if(!mf.sharedMesh) {
-			mf.sharedMesh = new Mesh();
-		}
-		Mesh mesh = mf.sharedMesh;
-		//create a cube for now
-		mesh.Clear();
-	
 		int segments = curve.Length-1;
 		Vector3[] vertices = new Vector3[4*segments];
 		Vector2[] uvs = new Vector2[4*segments];
@@ -44,11 +36,17 @@ public class DynamicRenderMesh : DynamicMesh {
 			tris[i*6+4] 	= 1+i*4;
 			tris[i*6+5] 	= 3+i*4;
 		}
-        mesh.vertices = vertices;
-        mesh.uv = uvs;
-        mesh.triangles = tris;
-		mesh.RecalculateNormals();
-		mesh.RecalculateBounds();
+		
+		MeshFilter mf = gameObject.GetComponent<MeshFilter>();
+		if(!mf.sharedMesh) {
+			mf.sharedMesh = new Mesh();
+		}
+		mf.sharedMesh.Clear();
+		
+		mf.sharedMesh.vertices = vertices;
+		mf.sharedMesh.triangles = tris;
+        mf.sharedMesh.RecalculateNormals();
+		mf.sharedMesh.RecalculateBounds();
 	}
 	// Use this for initialization
 	void Start () {
