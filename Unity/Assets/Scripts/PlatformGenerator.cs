@@ -25,21 +25,21 @@ public class PlatformGenerator : MonoBehaviour {
 	public float mFrequency;
 	
 	public void GeneratePlatform() {
-		if(!foreground) {
+		if(foreground == null) {
 			GameObject go = new GameObject("foreground");
 			go.transform.parent = transform;
 			go.transform.localPosition = Vector3.zero;
 			foreground = go.AddComponent<DynamicRenderMesh>();
 			foreground.type = DynamicMeshType.Foreground;
 		}
-		if(!border) {
+		if(border == null) {
 			GameObject go = new GameObject("border");
 			go.transform.parent = transform;
 			go.transform.localPosition = Vector3.zero;
 			border = go.AddComponent<DynamicRenderMesh>();
 			border.type = DynamicMeshType.Border;
 		}
-		if(!physics) {
+		if(physics == null) {
 			GameObject go = new GameObject("physics");
 			go.transform.parent = transform;
 			go.transform.localPosition = Vector3.zero;
