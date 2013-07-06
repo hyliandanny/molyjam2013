@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 [RequireComponent (typeof (MeshFilter))]
 [RequireComponent (typeof (MeshRenderer))]
@@ -25,40 +26,61 @@ public class PlatformGenerator : MonoBehaviour {
 	public float mFrequency;
 	
 	public void GeneratePlatform() {
-		Debug.Log("Generate");
 		MeshFilter mf = gameObject.GetComponent<MeshFilter>();
 		if(!mf.sharedMesh) {
-			Debug.Log("Create New Mesh");
 			mf.sharedMesh = new Mesh();
 		}
 		MeshCollider mc = gameObject.GetComponent<MeshCollider>();
 		if(!mc.sharedMesh) {
-			Debug.Log("Add Shared Mesh To Mesh Collider");
 			mc.sharedMesh = mf.sharedMesh;
 		}
 		Mesh mesh = mf.sharedMesh;
 		//create a cube for now
 		mesh.Clear();
 		
-		//Z is always plus/minus the depth
-		Vector3[] vertices = {	new Vector3(0,0,depth),	//0
-								new Vector3(0,0,-depth),//1
-								new Vector3(0,1,depth),	//2
-								new Vector3(0,1,-depth),//3
-								new Vector3(1,0,depth),	//4
-								new Vector3(1,0,-depth),//5
-								new Vector3(1,1,depth),	//6
-								new Vector3(1,1,-depth)};//7
-		//negative depth is towards the cam
-						//front
-		int[] tris = {	1,3,5,
-						3,7,5,
-						//top
-						3,2,7,
-						2,6,7};
-						
+		float planes = Mathf.Round(mLength);
+		int segments = (int)planes - 1;
+		Vector3[] vertices = new Vector3[6*segments];
+		Vector2[] uvs = new Vector2[6*segments];
+		int[] tris = new int[3*vertices.Length];
+
+		float h1,h2;
+		h1 = PlatformHeightGenerator.Instance().GetHeight(Terrain.Ground,transform.position.x);
+		h2 = PlatformHeightGenerator.Instance().GetHeight(Terrain.Ground,transform.position.x+1);
+		//for each slice
+		for(int i = 0; i < segments; i++) {
+			vertices[i*6]   = new Vector3(i,   0,  -depth); //front bottom	0
+			vertices[1+i*6] = new Vector3(i,   h1, depth);  //back top		1
+			vertices[2+i*6] = new Vector3(i,   h1, -depth); //front top		2
+			vertices[3+i*6] = new Vector3(i+1, 0,  -depth); //front bottom	3
+			vertices[4+i*6] = new Vector3(i+1, h2, depth);  //back top		4
+			vertices[5+i*6] = new Vector3(i+1, h2, -depth); //front top		5
+			
+			uvs[i*6]   = new Vector2(((Vector3)vertices[i*6]).x,     	0);  //front bottom	0
+			uvs[1+i*6] = new Vector2(((Vector3)vertices[1+i*6]).x,     ((Vector3)vertices[1+i*6]).y); //back top		1
+			uvs[2+i*6] = new Vector2(((Vector3)vertices[2+i*6]).x,     ((Vector3)vertices[2+i*6]).y); //front top		2
+			uvs[3+i*6] = new Vector2(((Vector3)vertices[3+i*6]).x, 0);  //front bottom	3
+			uvs[4+i*6] = new Vector2(((Vector3)vertices[4+i*6]).x, ((Vector3)vertices[4+i*6]).y); //back top		4
+			uvs[5+i*6] = new Vector2(((Vector3)vertices[5+i*6]).x, ((Vector3)vertices[5+i*6]).y); //front top		5
+			
+			tris[i*12]		= 0+i*6;
+			tris[i*12+1] 	= 2+i*6;
+			tris[i*12+2] 	= 3+i*6;
+			tris[i*12+3] 	= 2+i*6;
+			tris[i*12+4] 	= 5+i*6;
+			tris[i*12+5] 	= 3+i*6;
+			tris[i*12+6] 	= 2+i*6;
+			tris[i*12+7] 	= 1+i*6;
+			tris[i*12+8] 	= 5+i*6;
+			tris[i*12+9] 	= 1+i*6;
+			tris[i*12+10] 	= 4+i*6;
+			tris[i*12+11] 	= 5+i*6;
+			
+			h1 = h2;
+			h2 = PlatformHeightGenerator.Instance().GetHeight(Terrain.Ground,transform.position.x+i+2);
+		}
         mesh.vertices = vertices;
-        //mesh.uv = newUV;
+        mesh.uv = uvs;
         mesh.triangles = tris;
 		mesh.RecalculateNormals();
 		mesh.RecalculateBounds();
