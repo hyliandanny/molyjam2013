@@ -115,14 +115,6 @@ public class CharacterController2D : MonoBehaviour
 		[System.NonSerialized]
 		public float lastStartHeight = 0.0f;
 	}
-	
-	// Animation functions will be handled in this helper class.
-	[System.Serializable]
-	public class CharacterAnimation {
-		public AnimationClip idle, walk, jump,run;
-	}
-	
-	public CharacterAnimation animator = new CharacterAnimation();
  
 	public PlatformerControllerJumping jump = new PlatformerControllerJumping();
 	public CharacterController controller;
