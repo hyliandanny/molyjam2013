@@ -9,6 +9,7 @@ public class LevelBuilder : MonoBehaviour {
 	List<PlatformGenerator> platforms;
 	void Awake() {
 		platforms = new List<PlatformGenerator>();
+		CreatePlatform();
 	}
 	// Use this for initialization
 	void Start () {
