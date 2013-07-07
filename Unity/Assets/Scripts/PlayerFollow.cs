@@ -12,8 +12,6 @@ public class PlayerFollow : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log("Me"+transform.position);
-		Debug.Log("Target"+character.transform.position);
 		Vector3 myPos = transform.position;
 		myPos.x = character.position.x;
 		transform.position = myPos;
