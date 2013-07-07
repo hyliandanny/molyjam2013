@@ -158,7 +158,8 @@ public class CharacterController2D : MonoBehaviour
  
 	public void OnDeath ()
 	{
-		Spawn ();
+		//Spawn ();
+		Application.LoadLevel(Application.loadedLevel+1);
 	}
  
 	void UpdateSmoothedMovementDirection ()
