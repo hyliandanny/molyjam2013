@@ -34,6 +34,7 @@ public class PickupManager : MonoBehaviour {
 					PickupClass pickup = (PickupClass)Instantiate(pickupPrefabs[i]);
 					pickup.transform.position = new Vector3(x,y,0);
 					pickup.transform.localScale = new Vector3(scale,scale,scale);
+					pickup.transform.rotation = Random.rotation;
 				}
 			}
 		}
@@ -59,10 +60,10 @@ public class PickupManager : MonoBehaviour {
 	}
 	public float MIN_SCALE = 1;
 	public float MAX_SCALE = 3;
-	float scale;
+	float scale = 1;
 	public float MIN_HEIGHT = 3;
 	public float MAX_HEIGHT = 15;
-	float height;
+	float height = 6;
 	
 	void HandleColorMessage(Message msg) {
 		ColorMessage message = msg as ColorMessage;
