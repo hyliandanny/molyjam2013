@@ -12,6 +12,7 @@ public class PlatformGenerator : MonoBehaviour {
 	
 	DynamicRenderMesh foreground;
 	DynamicRenderMesh border;
+	DynamicRenderMesh background;
 	DynamicPhysicsMesh physics;
 	
 	public float mEndHeight;
@@ -43,6 +44,9 @@ public class PlatformGenerator : MonoBehaviour {
 			else if(t.name == "border") {
 				border = t.GetComponent<DynamicRenderMesh>();
 			}
+			else if(t.name == "background") {
+				background = t.GetComponent<DynamicRenderMesh>();
+			}
 			else if(t.name == "physics") {
 				physics = t.GetComponent<DynamicPhysicsMesh>();
 			}
@@ -62,6 +66,13 @@ public class PlatformGenerator : MonoBehaviour {
 			border = go.AddComponent<DynamicRenderMesh>();
 			border.type = DynamicMeshType.Border;
 		}
+		if(background == null) {
+			GameObject go = new GameObject("background");
+			go.transform.parent = transform;
+			go.transform.localPosition = Vector3.zero;
+			background = go.AddComponent<DynamicRenderMesh>();
+			background.type = DynamicMeshType.Background;
+		}
 		if(physics == null) {
 			GameObject go = new GameObject("physics");
 			go.transform.parent = transform;
@@ -71,8 +82,10 @@ public class PlatformGenerator : MonoBehaviour {
 		}
 		
 		Vector2[] curve = CurveGenerator.Instance.GetCurve(Terrain.Ground,transform.position.x,mLength,(int)Mathf.Round(mLength*10));
+		Vector2[] uppercurve = CurveGenerator.Instance.GetCurve(Terrain.Hill,transform.position.x,mLength,(int)Mathf.Round(mLength*10));
 		physics.Generate(curve);
 		foreground.Generate(curve);
+		background.Generate(uppercurve);
 		border.Generate(curve);
 		mStartHeight = curve[0].y;
 		mEndHeight = curve[curve.Length-1].y;
@@ -86,8 +99,11 @@ public class PlatformGenerator : MonoBehaviour {
 			}
 		}
 	}
-	public void SetColor(float r, float g, float b) {
+	public void SetForegroundColor(float r, float g, float b) {
 		foreground.GetComponent<ColorMix>().SetColor(r,g,b);
 		border.GetComponent<ColorMix>().SetColor(r,g,b);
+	}
+	public void SetBackgroundColor(float r, float g, float b) {
+		background.GetComponent<ColorMix>().SetColor(r,g,b);
 	}
 }

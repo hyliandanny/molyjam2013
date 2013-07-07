@@ -1,3 +1,4 @@
 public enum Terrain {
-	Ground
+	Ground,
+	Hill
 }
