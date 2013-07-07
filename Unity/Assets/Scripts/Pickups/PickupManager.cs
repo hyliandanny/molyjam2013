@@ -23,20 +23,16 @@ public class PickupManager : MonoBehaviour {
 	void HandleStageCreatedMessage(Message msg) {
 		StageCreatedMessage message = msg as StageCreatedMessage;
 		if(message != null) {
-			
-			float startX = Mathf.Max(5,message.StartX);
-			float endX = message.EndX;
-			float range = (endX-startX)/pickupPrefabs.Length;
-			for(int i = 0; i < pickupPrefabs.Length; i++) {
-				if(pickupPrefabs[i] != null) {
-					float x = Mathf.Max(startX+i*range,startX+(i+1)*range);
+			for(float x = message.StartX + Random.Range(1f,5f); x < message.EndX; x += Random.Range(8,15)) {
+				//if(Random.Range(0f,1f) > 0.6f) {
+					int i = Random.Range(0,pickupPrefabs.Length);
 					RaycastHit hit;
 					if(Physics.Raycast(new Vector3(x,1000,0),Vector3.down,out hit)) {
-						float y = hit.point.y + Random.Range(1,5);
+						float y = hit.point.y + Random.Range(3,6);
 						PickupClass pickup = (PickupClass)Instantiate(pickupPrefabs[i]);
 						pickup.transform.position = new Vector3(x,y,0);
 					}
-				}
+				//}
 			}
 		}
 	}
