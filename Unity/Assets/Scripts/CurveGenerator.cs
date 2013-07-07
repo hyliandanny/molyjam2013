@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class CurveGenerator : MonoBehaviour {
+	public bool autoCalc = true;
 	static CurveGenerator mInstance;
 	public int mNumberOfCurves;
 	public List<float> amplitudes;
@@ -10,8 +11,10 @@ public class CurveGenerator : MonoBehaviour {
 	public List<float> phases;
 	public List<float> weights;
 	
+	float seed;
 	void Awake() {
 		Messenger.AddListener(typeof(ColorMessage),HandleColorMessage);
+		seed = Random.value*Time.realtimeSinceStartup;
 	}
 	void OnDestroy() {
 		Messenger.RemoveListener(typeof(ColorMessage),HandleColorMessage);
@@ -62,6 +65,22 @@ public class CurveGenerator : MonoBehaviour {
 	void HandleColorMessage(Message msg) {
 		ColorMessage message = msg as ColorMessage;
 		if(message != null) {
+		}
+	}
+	//assuming 2 curves
+	void Update() {
+		if(autoCalc) {
+			float t = Time.timeSinceLevelLoad/10+seed;
+			mNumberOfCurves = 2;
+			amplitudes[0] = 0.5f*(Mathf.Sin(t)+1);
+			frequencies[0] = 1/2f*amplitudes[0];
+			phases[0] = 180*(Mathf.Sin(t)+1);
+			weights[0] = 1;
+		
+			amplitudes[1] = 10*0.5f*(Mathf.Cos(t)+1);
+			frequencies[1] = 1/amplitudes[1];
+			phases[1] = 180*(Mathf.Cos(t)+1);
+			weights[1] = 0.75f+(Mathf.Sin(t)+1)/8f;
 		}
 	}
 }
