@@ -14,6 +14,6 @@ public class PlayAgain : MonoBehaviour {
 	}
 	
 	void Clicked() {
-		Application.LoadLevel(1);
+		Application.LoadLevel(Application.loadedLevel);
 	}
 }
