@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlayerFollow : MonoBehaviour {
+public class DeathBoxFollow : MonoBehaviour {
 	
 	public Transform character;
 
