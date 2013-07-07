@@ -133,15 +133,18 @@ public class CharacterController2D : MonoBehaviour
  
 	// This is used to keep track of special effects in UpdateEffects ();
 	bool areEmittersOn = false;
+	
+	Animator anim;
  
 	void Awake ()
 	{
+		anim = GetComponentInChildren<Animator>();
 		movement.direction = transform.TransformDirection (Vector3.forward);
 		controller = GetComponent<CharacterController> ();
-		animation.AddClip(animator.jump, "jump");
-		animation.AddClip(animator.idle, "idle");
-		animation.AddClip(animator.run, "run");
-		animation.AddClip(animator.walk, "walk");
+//		animation.AddClip(animator.jump, "jump");
+//		animation.AddClip(animator.idle, "idle");
+//		animation.AddClip(animator.run, "run");
+//		animation.AddClip(animator.walk, "walk");
 		Spawn ();
 	}
  
@@ -233,6 +236,7 @@ public class CharacterController2D : MonoBehaviour
 				movement.verticalSpeed = CalculateJumpVerticalSpeed (jump.height);
 				movement.inAirVelocity = lastPlatformVelocity;
 				SendMessage ("DidJump", SendMessageOptions.DontRequireReceiver);
+				anim.SetBool("Jumping", true);
 			}
 		}
 	}
@@ -298,6 +302,7 @@ public class CharacterController2D : MonoBehaviour
 		jump.lastStartHeight = transform.position.y;
 		jump.lastButtonTime = -10f;
 		//animation.CrossFade("jump");
+		anim.SetBool("Jumping", true);
 	}
  
 	void UpdateEffects ()
@@ -317,7 +322,10 @@ public class CharacterController2D : MonoBehaviour
 	{
 		if (Input.GetButtonDown ("Jump") && canControl) {
 			jump.lastButtonTime = Time.time;
+			anim.SetBool("Jumping", true);
 		}
+		
+		anim.transform.localPosition = Vector3.zero;
  
 		UpdateSmoothedMovementDirection ();
  
@@ -371,6 +379,7 @@ public class CharacterController2D : MonoBehaviour
 			movement.inAirVelocity = Vector3.zero;
 			if (jump.jumping) {
 				jump.jumping = false;
+				anim.SetBool("Jumping", false);
 				jump.doubleJumping = false;
 				jump.canDoubleJump = false;
 				SendMessage ("DidLand", SendMessageOptions.DontRequireReceiver);
@@ -390,18 +399,21 @@ public class CharacterController2D : MonoBehaviour
 	
 	void UpdateAnimations() 
 	{
+		anim.SetFloat("Speed", movement.velocity.x);
+		//anim.SetBool("Jumping", IsJumping());
 		if(IsMoving() && !IsJumping() && Mathf.Abs(movement.velocity.x) > 5f) {
-			animation.CrossFade("run");
+		//	animation.CrossFade("run");
 		}
 		else if(!IsJumping() && Mathf.Abs(movement.velocity.x) > 0.5f) {
-			animation.CrossFade("walk");
+		//	animation.CrossFade("walk");
 		}
 		else if(!IsMoving() && Mathf.Abs(movement.velocity.x) < 0.5f && !IsJumping()) {
-			animation.CrossFade("idle");
+		//	animation.CrossFade("idle");
 		}
 		else if(IsJumping()) {
-			if(!animation.IsPlaying("jump"))
-				animation.Play("jump");
+			
+		//	if(!animation.IsPlaying("jump"))
+		//		animation.Play("jump");
 		}
 	}
  
