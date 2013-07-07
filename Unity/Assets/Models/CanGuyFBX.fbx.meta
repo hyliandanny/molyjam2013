@@ -129,7 +129,7 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 1
   importAnimation: 1
-  copyAvatar: 1
+  copyAvatar: 0
   humanDescription:
     human:
     - boneName: pelvis
@@ -178,8 +178,8 @@ ModelImporter:
         min: {x: -90, y: 0, z: -80}
         max: {x: 90, y: 0, z: 80}
         value: {x: .266999453, y: 0, z: .133499727}
-        preQ: {x: -.41094625, y: -.436101198, z: -.574110568, w: .557974756}
-        postQ: {x: -5.96046448e-08, y: .999994874, z: -.00319628417, w: 1.78813934e-07}
+        preQ: {x: -.41094625, y: -.436101168, z: -.574110508, w: .557974756}
+        postQ: {x: -1.4901163e-08, y: .999994874, z: -.00319625484, w: 2.08616285e-07}
         length: .333749473
         modified: 1
     - boneName: L_Ankle
@@ -189,7 +189,7 @@ ModelImporter:
         max: {x: 0, y: 30.0000019, z: 50}
         value: {x: .0992425159, y: 0, z: .0496212579}
         preQ: {x: -.0653145835, y: .997859478, z: .00321695209, w: -.000210523591}
-        postQ: {x: .00562617928, y: -.00938174129, z: -.857554734, w: .514276266}
+        postQ: {x: .00562619418, y: -.00938172638, z: -.857554674, w: .514276326}
         length: .12405318
         modified: 1
     - boneName: R_Ankle
@@ -198,8 +198,8 @@ ModelImporter:
         min: {x: 0, y: -30.0000019, z: -50}
         max: {x: 0, y: 30.0000019, z: 50}
         value: {x: .0992426798, y: 0, z: .0496213399}
-        preQ: {x: -.0653144941, y: .997859478, z: -.00321698235, w: .000210642844}
-        postQ: {x: -.00562607497, y: .00938145816, z: -.857555151, w: .514275551}
+        preQ: {x: -.0653144941, y: .997859478, z: -.00321695255, w: .000210672646}
+        postQ: {x: -.00562615693, y: .00938149542, z: -.857555211, w: .514275491}
         length: .124053389
         modified: 1
     - boneName: spine2
@@ -213,10 +213,10 @@ ModelImporter:
         length: .302028537
         modified: 1
     - boneName: neck
-      humanName: Neck
+      humanName: Chest
       limit:
-        min: {x: 0, y: 0, z: -45}
-        max: {x: 0, y: 0, z: 45}
+        min: {x: -40, y: -40, z: -40}
+        max: {x: 40, y: 40, z: 40}
         value: {x: .0364649631, y: 0, z: .0182324816}
         preQ: {x: 4.47034871e-08, y: -0, z: -.999955475, w: -.00943258405}
         postQ: {x: 2.98023224e-08, y: 2.98023224e-08, z: -.99999994, w: 5.96046448e-08}
@@ -227,10 +227,10 @@ ModelImporter:
       limit:
         min: {x: -40, y: -40, z: -40}
         max: {x: 40, y: 40, z: 40}
-        value: {x: .0364649631, y: 0, z: .0182324816}
+        value: {x: .0182324816, y: 0, z: .00911624078}
         preQ: {x: 1.49011612e-08, y: 1.49011612e-08, z: .99999994, w: -1.49011612e-08}
         postQ: {x: 2.98023206e-08, y: 4.47034836e-08, z: .968028069, w: .25084123}
-        length: .0455812216
+        length: .0227906108
         modified: 1
     - boneName: L_UpperArm
       humanName: LeftUpperArm
@@ -259,7 +259,7 @@ ModelImporter:
         max: {x: 90, y: 0, z: 80}
         value: {x: .169796407, y: 0, z: .0848982036}
         preQ: {x: .478794456, y: .514183283, z: .545864344, w: -.456512481}
-        postQ: {x: 2.91445758e-07, y: .718684435, z: .695336342, w: 4.48897509e-07}
+        postQ: {x: 2.93308403e-07, y: .718684435, z: .695336342, w: 4.47034864e-07}
         length: .212245584
         modified: 1
     - boneName: R_Forearm
@@ -278,8 +278,8 @@ ModelImporter:
         min: {x: 0, y: -40, z: -80}
         max: {x: 0, y: 40, z: 80}
         value: {x: .0848982036, y: 0, z: .0424491018}
-        preQ: {x: -1.13497677e-07, y: .0168317202, z: .99985832, w: 5.23139136e-07}
-        postQ: {x: .0250601266, y: .000172911212, z: .999662101, w: -.00689472491}
+        preQ: {x: -1.11635032e-07, y: .0168317202, z: .99985832, w: 5.23138681e-07}
+        postQ: {x: .0250601284, y: .000172911197, z: .999662101, w: -.00689472491}
         length: .106122792
         modified: 1
     - boneName: R_Hand
@@ -297,20 +297,20 @@ ModelImporter:
       limit:
         min: {x: 0, y: 0, z: -50}
         max: {x: 0, y: 0, z: 50}
-        value: {x: .0810179859, y: 0, z: .040508993}
-        preQ: {x: -.0106121609, y: .00265556597, z: .970031023, w: .242734492}
-        postQ: {x: .72056675, y: .693385482, z: -5.96046519e-08, w: -5.96046519e-08}
-        length: .101272516
+        value: {x: .0810179934, y: 0, z: .0405089967}
+        preQ: {x: -.0106121609, y: .00265557342, z: .970031023, w: .242734462}
+        postQ: {x: .72056669, y: .693385482, z: -0, w: -5.96046448e-08}
+        length: .101272523
         modified: 1
     - boneName: R_Toe
       humanName: RightToes
       limit:
         min: {x: 0, y: 0, z: -50}
         max: {x: 0, y: 0, z: 50}
-        value: {x: .0810177997, y: 0, z: .0405088998}
-        preQ: {x: .0106119821, y: -.00265546166, z: .970030785, w: .242735356}
-        postQ: {x: .693385363, y: -.720566928, z: 1.4901164e-07, w: 0}
-        length: .101272285
+        value: {x: .0810178146, y: 0, z: .0405089073}
+        preQ: {x: .0106120715, y: -.00265544676, z: .970030785, w: .242735401}
+        postQ: {x: .693385363, y: -.720566869, z: 1.19209304e-07, w: -5.96046519e-08}
+        length: .1012723
         modified: 1
     - boneName: L_Finger2
       humanName: Left Thumb Proximal
@@ -343,33 +343,33 @@ ModelImporter:
         length: .0427695513
         modified: 1
     - boneName: L_Finger0
-      humanName: Left Middle Proximal
+      humanName: Left Little Proximal
       limit:
-        min: {x: 0, y: 0, z: -45}
-        max: {x: 0, y: 0, z: 45}
+        min: {x: 0, y: -20, z: -50}
+        max: {x: 0, y: 20, z: 50}
         value: {x: .0391093381, y: 0, z: .019554669}
-        preQ: {x: .100228712, y: .0194993708, z: .944062889, w: -.313558877}
-        postQ: {x: 2.34460444e-07, y: .0478896759, z: .998852491, w: 3.66489985e-07}
+        preQ: {x: -.0143057443, y: .0225925799, z: .949486554, w: -.312666208}
+        postQ: {x: 2.34460444e-07, y: .0478896759, z: .998852491, w: 3.6462734e-07}
         length: .0488866903
         modified: 1
     - boneName: L_Finger01
-      humanName: Left Middle Intermediate
+      humanName: Left Little Intermediate
       limit:
         min: {x: 0, y: 0, z: -45}
         max: {x: 0, y: 0, z: 45}
         value: {x: .0611596219, y: 0, z: .030579811}
-        preQ: {x: .0512106009, y: .098295778, z: .945047319, w: -.307572216}
-        postQ: {x: -6.49364722e-07, y: .120957181, z: .992657721, w: 2.82452703e-07}
+        preQ: {x: .0512106083, y: .0982957929, z: .945047438, w: -.307572275}
+        postQ: {x: -6.49364722e-07, y: .120957181, z: .992657721, w: 2.80590058e-07}
         length: .0764495432
         modified: 1
     - boneName: L_Finger02
-      humanName: Left Middle Distal
+      humanName: Left Little Distal
       limit:
         min: {x: 0, y: 0, z: -45}
         max: {x: 0, y: 0, z: 45}
         value: {x: .0458697118, y: 0, z: .0229348559}
         preQ: {x: .0370904319, y: .178994998, z: .934841931, w: -.304394066}
-        postQ: {x: -.676685333, y: -.419878095, z: -.206108212, w: .568611205}
+        postQ: {x: -.676685274, y: -.419878036, z: -.206108198, w: .568611205}
         length: .0573371574
         modified: 1
     - boneName: R_Finger2
@@ -403,17 +403,17 @@ ModelImporter:
         length: .0427697152
         modified: 1
     - boneName: R_Finger0
-      humanName: Right Middle Proximal
+      humanName: Right Little Proximal
       limit:
-        min: {x: 0, y: 0, z: -45}
-        max: {x: 0, y: 0, z: 45}
+        min: {x: 0, y: -20, z: -50}
+        max: {x: 0, y: 20, z: 50}
         value: {x: .0391093567, y: 0, z: .0195546784}
-        preQ: {x: -.313559115, y: .944062769, z: .019499084, w: .100228965}
+        preQ: {x: -.312666386, y: .949486494, z: .0225931145, w: -.0143054724}
         postQ: {x: 7.45058003e-07, y: -.998852551, z: -.0478904098, w: -2.38418565e-07}
         length: .0488867126
         modified: 1
     - boneName: R_Finger01
-      humanName: Right Middle Intermediate
+      humanName: Right Little Intermediate
       limit:
         min: {x: 0, y: 0, z: -45}
         max: {x: 0, y: 0, z: 45}
@@ -423,7 +423,7 @@ ModelImporter:
         length: .0764491558
         modified: 1
     - boneName: R_Finger02
-      humanName: Right Middle Distal
+      humanName: Right Little Distal
       limit:
         min: {x: 0, y: 0, z: -45}
         max: {x: 0, y: 0, z: 45}
@@ -433,7 +433,7 @@ ModelImporter:
         length: .0573368669
         modified: 1
     skeleton:
-    - name: CanGuy
+    - name: CanGuyFBX
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: .99999994}
       scale: {x: 1, y: 1, z: 1}
@@ -460,7 +460,7 @@ ModelImporter:
       transformModified: 1
     - name: L_Ankle
       position: {x: -.333748847, y: -6.33299351e-08, z: 3.91155481e-08}
-      rotation: {x: .822100401, y: .569166243, z: .00647524698, w: -.0125960922}
+      rotation: {x: .822100341, y: .569166243, z: .00647524651, w: -.0125960913}
       scale: {x: 1, y: .999999881, z: 1.00000024}
       transformModified: 1
     - name: L_Toe
@@ -475,7 +475,7 @@ ModelImporter:
       transformModified: 1
     - name: R_Knee
       position: {x: -.529073775, y: -5.58793545e-08, z: -3.95812094e-08}
-      rotation: {x: -.800123394, y: -.0585615486, z: .0344036408, w: -.595977545}
+      rotation: {x: -.800123394, y: -.0585615523, z: .0344036445, w: -.595977604}
       scale: {x: 1.00000024, y: 1.0000006, z: 1.00000036}
       transformModified: 1
     - name: R_Ankle
@@ -515,7 +515,7 @@ ModelImporter:
       transformModified: 1
     - name: L_Forearm
       position: {x: -.297079742, y: -2.08616257e-07, z: -2.48113761e-08}
-      rotation: {x: .017349083, y: .0246983543, z: -.0214187112, w: .999314725}
+      rotation: {x: .017349083, y: .0246983524, z: -.0214187112, w: .999314725}
       scale: {x: .99999994, y: 1.00000012, z: 1}
       transformModified: 1
     - name: L_Hand
@@ -525,7 +525,7 @@ ModelImporter:
       transformModified: 1
     - name: L_Finger0
       position: {x: -.0818924904, y: 7.68923201e-08, z: -1.11758709e-08}
-      rotation: {x: .0459154174, y: .0666554794, z: .0251332577, w: .996401966}
+      rotation: {x: .0459154174, y: .0666554794, z: .0251332559, w: .996401966}
       scale: {x: 1.00000024, y: 1.00000012, z: 1}
       transformModified: 1
     - name: L_Finger01
@@ -535,7 +535,7 @@ ModelImporter:
       transformModified: 1
     - name: L_Finger02
       position: {x: -.0764495134, y: -1.46683306e-08, z: -8.94069672e-08}
-      rotation: {x: -.391865075, y: .740494728, z: .482586116, w: -.255381554}
+      rotation: {x: -.391865104, y: .740494788, z: .482586175, w: -.255381584}
       scale: {x: .999999881, y: 1, z: 1.00000024}
       transformModified: 1
     - name: L_Finger2
