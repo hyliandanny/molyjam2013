@@ -1,11 +1,22 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 // Require a character controller to be attached to the same game object
 [RequireComponent (typeof(CharacterController))]
 [AddComponentMenu ("2D Platformer/Platformer Controller")]
 public class CharacterController2D : MonoBehaviour
 {
+	
+	IEnumerator Start() {
+		yield return new WaitForEndOfFrame();
+		Texture2D newScreen = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+		newScreen.ReadPixels(new Rect(0,0,Screen.width,Screen.height), 0, 0);
+		newScreen.Apply();
+		screen = newScreen;
+		nextScreenPos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0f)).x;
+	}
+	
 	// Does this script currently respond to Input?
 	public bool canControl = true;
  
@@ -395,6 +406,25 @@ public class CharacterController2D : MonoBehaviour
 		
 		// Update Animations
 		UpdateAnimations();
+		
+		// Screenshotter
+		StartCoroutine(UpdateScreengrab());
+	}
+	
+	public static Texture2D screen = null;
+	float nextScreenPos;
+	
+	IEnumerator UpdateScreengrab() {
+		float leftEdge = Camera.main.ScreenToWorldPoint(Vector3.zero).x;
+		if(leftEdge > nextScreenPos) {
+			nextScreenPos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x;
+			yield return new WaitForEndOfFrame();
+			Texture2D newScreen = new Texture2D(screen.width+Screen.width, Screen.height, TextureFormat.RGB24, false);
+			newScreen.SetPixels(0,0,screen.width,screen.height, screen.GetPixels());
+			newScreen.ReadPixels(new Rect(0,0, Screen.width, Screen.height), screen.width, 0);
+			newScreen.Apply();
+			screen = newScreen;
+		}
 	}
 	
 	void UpdateAnimations() 
