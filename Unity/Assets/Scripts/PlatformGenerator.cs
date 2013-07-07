@@ -7,6 +7,8 @@ public class PlatformGenerator : MonoBehaviour {
 	//Dimensions: These are in real world space
 	//Length
 	public float mLength;
+	public int platformNumber;
+	bool playerHasReachedThePlatform = false;
 	
 	DynamicRenderMesh foreground;
 	DynamicRenderMesh border;
@@ -67,5 +69,16 @@ public class PlatformGenerator : MonoBehaviour {
 		border.Generate(curve);
 		mStartHeight = curve[0].y;
 		mEndHeight = curve[curve.Length-1].y;
+	}
+	void HandlePlayerDistanceMessage(Message msg) {
+		if(!playerHasReachedThePlatform) {
+			PlayerDistanceMessage message = msg as PlayerDistanceMessage;
+			if(message != null) {
+				if(message.Distance > transform.position.x) {
+					playerHasReachedThePlatform = true;
+					Messenger.Invoke(typeof(NextPlatformReachedMessage),new NextPlatformReachedMessage(this));
+				}
+			}
+		}
 	}
 }

@@ -9,17 +9,14 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip pickup;
 	public AudioClip death;
 	
-	// Use this for initialization
-	void Start () {
+	void Awake() {
+		Messenger.AddListener(typeof(PickupCollectedMessage),HandlePickupCollectedMessage);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	}
-	
-	public void OnPickup()
-	{
-		audio.PlayOneShot(pickup, 1.0f);
+	void HandlePickupCollectedMessage(Message msg) {
+		PickupCollectedMessage message = msg as PickupCollectedMessage;
+		if(message != null) {
+			audio.PlayOneShot(pickup, 1.0f);
+		}
 	}
 	
 	public void DidJump ()
