@@ -10,6 +10,12 @@ public class CurveGenerator : MonoBehaviour {
 	public List<float> phases;
 	public List<float> weights;
 	
+	void Awake() {
+		Messenger.AddListener(typeof(ColorMessage),HandleColorMessage);
+	}
+	void OnDestroy() {
+		Messenger.RemoveListener(typeof(ColorMessage),HandleColorMessage);
+	}
 	public static CurveGenerator Instance {
 		get {
 			if(!mInstance) {
@@ -36,5 +42,10 @@ public class CurveGenerator : MonoBehaviour {
 			y += weights[i]*amplitudes[i]*Mathf.Sin(frequencies[i]*x+phases[i]);
 		}
 		return y;
+	}
+	void HandleColorMessage(Message msg) {
+		ColorMessage message = msg as ColorMessage;
+		if(message != null) {
+		}
 	}
 }
