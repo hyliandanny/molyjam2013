@@ -419,11 +419,25 @@ public class CharacterController2D : MonoBehaviour
 		if(leftEdge > nextScreenPos) {
 			nextScreenPos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x;
 			yield return new WaitForEndOfFrame();
-			Texture2D newScreen = new Texture2D(screen.width+Screen.width, Screen.height, TextureFormat.RGB24, false);
-			newScreen.SetPixels(0,0,screen.width,screen.height, screen.GetPixels());
-			newScreen.ReadPixels(new Rect(0,0, Screen.width, Screen.height), screen.width, 0);
-			newScreen.Apply();
-			screen = newScreen;
+			Texture2D newScreen = null;
+			try {
+				newScreen = new Texture2D(screen.width+Screen.width, Screen.height, TextureFormat.RGB24, false);
+				newScreen.SetPixels(0,0,screen.width,screen.height, screen.GetPixels());
+				newScreen.ReadPixels(new Rect(0,0, Screen.width, Screen.height), screen.width, 0);
+			}
+			catch {
+				byte[] bytes = screen.EncodeToPNG();
+				System.IO.File.WriteAllBytes(Application.dataPath+"/levelScreenshot-"+System.DateTime.Now.ToString("yyyyMMddhhmmss")+".png", bytes);
+				DestroyObject(screen);
+				newScreen = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+				newScreen.ReadPixels(new Rect(0,0,Screen.width,Screen.height), 0, 0);
+			}
+			finally {
+				if(newScreen != null) {
+					newScreen.Apply();
+					screen = newScreen;
+				}
+			}
 		}
 	}
 	
