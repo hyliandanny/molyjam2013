@@ -14,8 +14,10 @@ public class RandomScale : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		axis = new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-		axis = axis.normalized;
+		//axis = new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+		amount = Random.Range(.7f, 2f);
+		axis = Vector3.one + Vector3.up;
+		//axis = axis.normalized;
 		initScale = transform.localScale;
 		currentPercent = 0f;
 	}
