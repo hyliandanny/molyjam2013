@@ -34,12 +34,13 @@ public class GameOver : MonoBehaviour {
 	
 	IEnumerator PanCamera() {
 		Vector3 cameraPos = Camera.main.transform.position;
-		while(cameraPos.x < LevelSectionTracker.farthestPoint) {
+		while(cameraPos.x < LevelSectionTracker.farthestPoint+10f) {
 			cameraPos.x += panSpeed * Time.deltaTime;
 			Camera.main.transform.position = cameraPos;
 			yield return new WaitForSeconds(0);
 		}
-		yield return new WaitForSeconds(2);
-		OnEnable();
+		// No more looping!
+		//yield return new WaitForSeconds(2);
+		//OnEnable();
 	}
 }
