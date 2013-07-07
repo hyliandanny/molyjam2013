@@ -1,12 +1,13 @@
 using UnityEngine;
 using System.Collections;
 
+public enum PickupType {
+	R,
+	G,
+	B
+}
 public class PickupClass : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-	
-	}
+	public PickupType pickupType;
 	
 	// Update is called once per frame
 	void Update () {
