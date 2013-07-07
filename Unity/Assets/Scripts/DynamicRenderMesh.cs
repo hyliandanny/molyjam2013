@@ -25,7 +25,7 @@ public class DynamicRenderMesh : DynamicMesh {
 			}
 			
 			uvs[i*4]   = new Vector2(((Vector2)curve[i]).x,   0);
-			uvs[1+i*4] = new Vector2(((Vector2)curve[i]).x,	  1);
+			uvs[1+i*4] = new Vector2(((Vector2)curve[i]).x,   1);
 			uvs[2+i*4] = new Vector2(((Vector2)curve[i+1]).x, 0);
 			uvs[3+i*4] = new Vector2(((Vector2)curve[i+1]).x, 1);
 			
@@ -44,6 +44,7 @@ public class DynamicRenderMesh : DynamicMesh {
 		mf.sharedMesh.Clear();
 		
 		mf.sharedMesh.vertices = vertices;
+		mf.sharedMesh.uv = uvs;
 		mf.sharedMesh.triangles = tris;
         mf.sharedMesh.RecalculateNormals();
 		mf.sharedMesh.RecalculateBounds();

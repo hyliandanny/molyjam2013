@@ -7,7 +7,6 @@ public class PlatformGeneratorEditor : Editor {
 	void OnSceneGUI() {
 		PlatformGenerator pg = (PlatformGenerator)target;
 		Vector3 p = pg.transform.position;
-		p.y = 0;
 		p.z = 0;
 		pg.transform.position = p;
         pg.GeneratePlatform();
