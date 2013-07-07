@@ -12,15 +12,15 @@ public class DynamicRenderMesh : DynamicMesh {
  
 		for(int i = 0; i < segments; i++) {
 			if(type == DynamicMeshType.Foreground) {
-				vertices[i*4]   = new Vector3(((Vector2)curve[i]).x,   -30,  -depth);
+				vertices[i*4]   = new Vector3(((Vector2)curve[i]).x,   -50,  -depth);
 				vertices[1+i*4] = new Vector3(((Vector2)curve[i]).x,   ((Vector2)curve[i]).y, -depth);
-				vertices[2+i*4] = new Vector3(((Vector2)curve[i+1]).x, -30,  -depth);
+				vertices[2+i*4] = new Vector3(((Vector2)curve[i+1]).x, -50,  -depth);
 				vertices[3+i*4] = new Vector3(((Vector2)curve[i+1]).x, ((Vector2)curve[i+1]).y, -depth);
 			}
 			else if(type == DynamicMeshType.Background) {
-				vertices[i*4]   = new Vector3(((Vector2)curve[i]).x,   -30,  depth);
+				vertices[i*4]   = new Vector3(((Vector2)curve[i]).x,   -50,  depth);
 				vertices[1+i*4] = new Vector3(((Vector2)curve[i]).x,   ((Vector2)curve[i]).y, depth);
-				vertices[2+i*4] = new Vector3(((Vector2)curve[i+1]).x, -30,  depth);
+				vertices[2+i*4] = new Vector3(((Vector2)curve[i+1]).x, -50,  depth);
 				vertices[3+i*4] = new Vector3(((Vector2)curve[i+1]).x, ((Vector2)curve[i+1]).y, depth);
 			}
 			else if(type == DynamicMeshType.Border) {

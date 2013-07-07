@@ -10,18 +10,21 @@ public class PickupManager : MonoBehaviour {
 	void Awake() {
 		Messenger.AddListener(typeof(StageCreatedMessage),HandleStageCreatedMessage);
 		Messenger.AddListener(typeof(ColorMessage),HandleColorMessage);
+		Messenger.AddListener(typeof(PickupCollectedMessage), HandlePickupCollectedMessage);
 		if (instance == null)
 			instance = this;
 	}
 	void OnDestroy() {
 		Messenger.RemoveListener(typeof(StageCreatedMessage),HandleStageCreatedMessage);
 		Messenger.RemoveListener(typeof(ColorMessage),HandleColorMessage);
+		Messenger.RemoveListener (typeof(PickupCollectedMessage), HandlePickupCollectedMessage);
 	}
 	
 	// Use this for initialization
 	void Start () {
 		
 	}
+	
 	void HandleStageCreatedMessage(Message msg) {
 		StageCreatedMessage message = msg as StageCreatedMessage;
 		if(message != null) {
@@ -38,10 +41,26 @@ public class PickupManager : MonoBehaviour {
 			}
 		}
 	}
+	
 	void HandlePickupCollectedMessage(Message msg) {
 		PickupCollectedMessage message = msg as PickupCollectedMessage;
 		if(message != null) {
 			pickupsGotten++;
+			/*
+			// LOOTSIE
+			Debug.Log ("Obtained " + pickupsGotten + " essences.");
+			if (pickupsGotten == 10) {
+				Lootsie.AchievementReached("TheColors");
+			} else if (pickupsGotten == 20) {
+				Lootsie.AchievementReached("DayTripper");
+			} else if (pickupsGotten == 30) {
+				Lootsie.AchievementReached("TheLongAndWindingRoad");
+			} else if (pickupsGotten == 40) {
+				Lootsie.AchievementReached("AcrossTheUniverse");
+			} else if (pickupsGotten == 50) {
+				Lootsie.AchievementReached("ThisColorTastesLikeGaming");
+			}
+			*/
 		}
 	}
 	public float MIN_SCALE = 1;
