@@ -11,13 +11,19 @@ public class RandomScale : MonoBehaviour {
 	
 	Vector3 axis;					//what axis do I scale on?
 	Vector3 initScale;				//starting scale
+	Vector3 rRot;					//the random rotation
+	Vector3 initRot;				//the initial rotation
 	
 	// Use this for initialization
 	void Start () {
-		//axis = new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+		
+		initRot = transform.eulerAngles;
+		rRot = new Vector3(Random.Range(0f, 360f), Random.Range(0f, 360f), Random.Range(0f, 360f));
+		
+		speed = Random.Range(.5f, 1.5f);
 		amount = Random.Range(.7f, 2f);
 		axis = Vector3.one + Vector3.up;
-		//axis = axis.normalized;
+		
 		initScale = transform.localScale;
 		currentPercent = 0f;
 	}
@@ -34,9 +40,14 @@ public class RandomScale : MonoBehaviour {
 			currentPercent -= Time.deltaTime * speed;
 			if(currentPercent <= 0f){
 				increasing = true;
+				amount = Random.Range(.7f, 2f);
+				speed = Random.Range(.5f, 1.5f);
+				initRot = transform.eulerAngles;
+				rRot = new Vector3(Random.Range(0f, 360f), Random.Range(0f, 360f), Random.Range(0f, 360f));
 			}
 		}
 		
 		transform.localScale = Vector3.Lerp(initScale, axis * amount, currentPercent);
+		transform.eulerAngles = Vector3.Lerp(initRot, rRot, currentPercent);
 	}
 }
