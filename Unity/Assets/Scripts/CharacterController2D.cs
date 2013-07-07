@@ -155,11 +155,19 @@ public class CharacterController2D : MonoBehaviour
 		transform.position = spawnPoint.position;
  
 	}
+	
+	public GameOver gameOver;
  
 	public void OnDeath ()
 	{
+		LevelSectionTracker.farthestPoint = transform.position.x;
 		//Spawn ();
-		Application.LoadLevel(Application.loadedLevel+1);
+		foreach(Transform aChild in transform) {
+			aChild.gameObject.SetActive(false);
+		}
+		//renderer.enabled = false;
+		enabled= false;
+		gameOver.gameObject.SetActive(true);
 	}
  
 	void UpdateSmoothedMovementDirection ()
