@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PickupManager : MonoBehaviour {
 	
-	public GameObject pickupPrefab;
+	public PickupClass[] pickupPrefabs;
 	private int pickupsGotten = 0;
 	public static PickupManager instance = null;
 	
@@ -20,15 +20,19 @@ public class PickupManager : MonoBehaviour {
 	void HandleStageCreatedMessage(Message msg) {
 		StageCreatedMessage message = msg as StageCreatedMessage;
 		if(message != null) {
-			Debug.Log(message.StartX + " " + message.EndX);
 			
-			for(int i = 0; i < 3; i++) {
-				float x = Mathf.Max(30,Random.Range(message.StartX,message.EndX));
-				RaycastHit hit;
-				if(Physics.Raycast(new Vector3(x,1000,0),Vector3.down,out hit)) {
-					float y = hit.point.y + Random.Range(1,5);
-					GameObject pickupObject = (GameObject)Instantiate(pickupPrefab);
-					pickupObject.transform.position = new Vector3(x,y,0);
+			float startX = Mathf.Max(5,message.StartX);
+			float endX = message.EndX;
+			float range = (endX-startX)/pickupPrefabs.Length;
+			for(int i = 0; i < pickupPrefabs.Length; i++) {
+				if(pickupPrefabs[i] != null) {
+					float x = Mathf.Max(startX+i*range,startX+(i+1)*range);
+					RaycastHit hit;
+					if(Physics.Raycast(new Vector3(x,1000,0),Vector3.down,out hit)) {
+						float y = hit.point.y + Random.Range(1,5);
+						PickupClass pickup = (PickupClass)Instantiate(pickupPrefabs[i]);
+						pickup.transform.position = new Vector3(x,y,0);
+					}
 				}
 			}
 		}

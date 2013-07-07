@@ -7,12 +7,11 @@ public class LevelBuilder : MonoBehaviour {
 	int platformNumber = 0;
 	float lastX = -10;
 	float lastY = 0;
-	bool nextPlatformCreated;
 	public List<PickupType> pickupTypes;
 	List<PlatformGenerator> platforms;
 	void Awake() {
 		Messenger.AddListener(typeof(PickupCollectedMessage),HandlePickupCollectedMessage);
-		Messenger.AddListener(typeof(PickupCollectedMessage),HandleNextPlatformReachedMessage);
+		Messenger.AddListener(typeof(NextPlatformReachedMessage),HandleNextPlatformReachedMessage);
 		platforms = new List<PlatformGenerator>();
 		pickupTypes = new List<PickupType>();
 		
@@ -30,8 +29,6 @@ public class LevelBuilder : MonoBehaviour {
 	}
 	
 	void CreatePlatform() {
-		nextPlatformCreated = false;
-		pickupTypes.Clear();
 		PlatformGenerator pg = (PlatformGenerator)Instantiate(platformGeneratorPrefab);
 		pg.platformNumber = platformNumber++;
 		platforms.Add(pg);

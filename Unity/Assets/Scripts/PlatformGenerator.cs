@@ -25,7 +25,11 @@ public class PlatformGenerator : MonoBehaviour {
 	public float StartY() {
 		return mStartHeight;
 	}
+	void Awake() {
+		Messenger.AddListener(typeof(PlayerDistanceMessage),HandlePlayerDistanceMessage);
+	}
 	public void GeneratePlatform() {
+		playerHasReachedThePlatform = false;
 		if(mLength < 0) {
 			mLength = 0;
 		}
@@ -71,13 +75,11 @@ public class PlatformGenerator : MonoBehaviour {
 		mEndHeight = curve[curve.Length-1].y;
 	}
 	void HandlePlayerDistanceMessage(Message msg) {
-		if(!playerHasReachedThePlatform) {
-			PlayerDistanceMessage message = msg as PlayerDistanceMessage;
-			if(message != null) {
-				if(message.Distance > transform.position.x) {
-					playerHasReachedThePlatform = true;
-					Messenger.Invoke(typeof(NextPlatformReachedMessage),new NextPlatformReachedMessage(this));
-				}
+		PlayerDistanceMessage message = msg as PlayerDistanceMessage;
+		if(message != null) {
+			if(!playerHasReachedThePlatform && message.Distance > transform.position.x) {
+				playerHasReachedThePlatform = true;
+				Messenger.Invoke(typeof(NextPlatformReachedMessage),new NextPlatformReachedMessage(this));
 			}
 		}
 	}
