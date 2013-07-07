@@ -54,17 +54,17 @@ public class ColorStatusBar : MonoBehaviour {
 		if(myMsg != null) {
 			if (myMsg.Pickup.pickupType == PickupType.B && blue.transform.localScale.x < 10f) {
 				Vector3 newScale = blue.transform.localScale;
-				newScale += blueS *0.1f;
+				newScale += blueS *0.25f;
 				blue.transform.localScale = newScale;
 			}
 			if (myMsg.Pickup.pickupType == PickupType.R && red.transform.localScale.x < 10f) {
 				Vector3 newScale = red.transform.localScale;
-				newScale += redS *0.1f;
+				newScale += redS *0.25f;
 				red.transform.localScale = newScale;
 			}
 			if (myMsg.Pickup.pickupType == PickupType.G && green.transform.localScale.x < 10f) {
 				Vector3 newScale = green.transform.localScale;
-				newScale += greenS *0.1f;
+				newScale += greenS *0.25f;
 				green.transform.localScale = newScale;
 			}
 		}
