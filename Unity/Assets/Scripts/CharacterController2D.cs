@@ -540,10 +540,17 @@ public class CharacterController2D : MonoBehaviour
 	float MIN_GRAVITY = 20;
 	float MIN_WALK_SPEED = 10;
 	float MAX_WALK_SPEED = 15;
+	
+	public float MIN_JUMP_HEIGHT = 1;
+	public float MAX_JUMP_HEIGHT = 10;
 	void HandleColorMessage(Message msg) {
 		ColorMessage message = msg as ColorMessage;
 		if(message != null) {
 			movement.gravity = MAX_GRAVITY-message.Percent*MIN_GRAVITY;
+			float j = MIN_JUMP_HEIGHT+message.Percent*(MAX_JUMP_HEIGHT-MIN_JUMP_HEIGHT);
+			jump.height = j;
+			jump.extraHeight = 2*j;
+			jump.doubleJumpHeight = 2*j;
 			//movement.walkSpeed = message.Percent*(MAX_WALK_SPEED-MIN_WALK_SPEED)+MIN_WALK_SPEED;
 		}
 	}
