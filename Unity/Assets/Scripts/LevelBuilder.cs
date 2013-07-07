@@ -56,6 +56,7 @@ public class LevelBuilder : MonoBehaviour {
 			//if not modify the already created
 			else {
 			}
+			platforms[platforms.Count-1].AddColor(message.Pickup.pickupType);
 		}
 	}
 	void HandleNextPlatformReachedMessage(Message msg) {

@@ -83,4 +83,28 @@ public class PlatformGenerator : MonoBehaviour {
 			}
 		}
 	}
+	public void AddColor(PickupType colorType) {
+		float r = foreground.renderer.material.color.r;
+		float g = foreground.renderer.material.color.g;
+		float b = foreground.renderer.material.color.b;
+		
+		if(colorType == PickupType.R) {
+			foreground.GetComponent<ColorMix>().rValue = true;
+			border.GetComponent<ColorMix>().rValue = true;
+			r = 0.5f;
+		}
+		else if(colorType == PickupType.G) {
+			foreground.GetComponent<ColorMix>().gValue = true;
+			border.GetComponent<ColorMix>().gValue = true;
+			g  = 0.5f;
+		}
+		else if(colorType == PickupType.B) {
+			foreground.GetComponent<ColorMix>().bValue = true;
+			border.GetComponent<ColorMix>().bValue = true;
+			b = 0.5f;
+		}
+		foreground.renderer.material.color = new Color(r,g,b,1);
+		border.renderer.material.color = new Color(r,g,b,1);
+		Debug.Log(foreground.renderer.material.color);
+	}
 }
