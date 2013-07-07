@@ -193,7 +193,7 @@ public class CharacterController2D : MonoBehaviour
 		Vector3 newSize = new Vector3(1f, 1f, 1f);
 		while(Mathf.Abs(mySize.x - newSize.x) > 0.01f) {
 			float transformDelta = Time.deltaTime * 7f;
-			mySize = Vector3.Lerp(startSize, newSize, (Time.time - startTime) / 2f);
+			mySize = Vector3.Lerp(startSize, newSize, (Time.time - startTime) / 1f);
 			transform.localScale = mySize;
 			yield return new WaitForSeconds(0);
 		}
