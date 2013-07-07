@@ -11,3 +11,8 @@
 *.pidb
 /Unity/Unity.userprefs
 Unity.userprefs
+Unity/Assets/.DS_Store
+
+Unity/Assets/Substances/.DS_Store
+
+Unity/Assets/Textures/.DS_Store
