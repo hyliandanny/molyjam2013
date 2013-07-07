@@ -31,7 +31,7 @@ public class ColorStatusBar : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(!blissedOutMode) {
-			if(blue.transform.localScale.x > 50f && red.transform.localScale.x > 50f && green.transform.localScale.x > 50f) {
+			if(blue.transform.localScale.x >= 10f && red.transform.localScale.x >= 10f && green.transform.localScale.x >= 10f) {
 				Messenger.Invoke(typeof(BlissedOutMessage), new BlissedOutMessage(true));
 				flareEffect.enabled = true;
 				StartCoroutine(EndBlissMode());
@@ -40,7 +40,7 @@ public class ColorStatusBar : MonoBehaviour {
 	}
 	
 	IEnumerator EndBlissMode() {
-		yield return new WaitForSeconds(5f);
+		yield return new WaitForSeconds(30f);
 		flareEffect.enabled = false;
 		red.transform.localScale = redS;
 		blue.transform.localScale = blueS;
@@ -52,17 +52,17 @@ public class ColorStatusBar : MonoBehaviour {
 	void PickupCollected(Message msg) {
 		PickupCollectedMessage myMsg = msg as PickupCollectedMessage;
 		if(myMsg != null) {
-			if (myMsg.Pickup.pickupType == PickupType.B && blue.transform.localScale.x < 50f) {
+			if (myMsg.Pickup.pickupType == PickupType.B && blue.transform.localScale.x < 10f) {
 				Vector3 newScale = blue.transform.localScale;
 				newScale += blueS *0.1f;
 				blue.transform.localScale = newScale;
 			}
-			if (myMsg.Pickup.pickupType == PickupType.R && red.transform.localScale.x < 50f) {
+			if (myMsg.Pickup.pickupType == PickupType.R && red.transform.localScale.x < 10f) {
 				Vector3 newScale = red.transform.localScale;
 				newScale += redS *0.1f;
 				red.transform.localScale = newScale;
 			}
-			if (myMsg.Pickup.pickupType == PickupType.G && green.transform.localScale.x < 50f) {
+			if (myMsg.Pickup.pickupType == PickupType.G && green.transform.localScale.x < 10f) {
 				Vector3 newScale = green.transform.localScale;
 				newScale += greenS *0.1f;
 				green.transform.localScale = newScale;
