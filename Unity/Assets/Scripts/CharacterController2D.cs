@@ -261,7 +261,7 @@ public class CharacterController2D : MonoBehaviour
 	void ApplyGravity ()
 	{
 		// Apply gravity
-		bool jumpButton = Input.GetButton ("Jump");
+		bool jumpButton = Input.GetButton ("Jump") || Input.GetButton("Fire1");
  
  
  
@@ -276,12 +276,12 @@ public class CharacterController2D : MonoBehaviour
  
 		// if we are jumping and we press jump button, we do a double jump or
 		// if we are falling, we can do a double jump to
-		if ((jump.jumping && Input.GetButtonUp ("Jump") && !jump.doubleJumping) || (!controller.isGrounded && !jump.jumping && !jump.doubleJumping && movement.verticalSpeed < -12.0f)) {
+		if ((jump.jumping && (Input.GetButtonUp ("Jump") || Input.GetButtonUp("Fire1")) && !jump.doubleJumping) || (!controller.isGrounded && !jump.jumping && !jump.doubleJumping && movement.verticalSpeed < -12.0f)) {
 			jump.canDoubleJump = true;
 		} 
  
 		// if we can do a double jump, and we press the jump button, we do a double jump
-		if (jump.canDoubleJump && Input.GetButtonDown ("Jump") && !IsTouchingCeiling ()) {
+		if (jump.canDoubleJump && (Input.GetButtonDown ("Jump") || Input.GetButtonDown("Fire1")) && !IsTouchingCeiling ()) {
 			jump.doubleJumping = true;
 			movement.verticalSpeed = CalculateJumpVerticalSpeed (jump.doubleJumpHeight);
 			SendMessage ("DidDoubleJump", SendMessageOptions.DontRequireReceiver);
@@ -337,7 +337,7 @@ public class CharacterController2D : MonoBehaviour
  
 	void Update ()
 	{
-		if (Input.GetButtonDown ("Jump") && canControl) {
+		if ((Input.GetButtonDown ("Jump") || Input.GetButtonDown("Fire1")) && canControl) {
 			jump.lastButtonTime = Time.time;
 			anim.SetBool("Jumping", true);
 		}
