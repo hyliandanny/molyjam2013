@@ -5,7 +5,9 @@ using System.Collections;
 public class SoundManager : MonoBehaviour {
 	
 	public AudioClip jump;
+	public AudioClip doubleJump;
 	public AudioClip pickup;
+	public AudioClip death;
 	
 	// Use this for initialization
 	void Start () {
@@ -23,5 +25,15 @@ public class SoundManager : MonoBehaviour {
 	public void DidJump ()
 	{
 		audio.PlayOneShot(jump, 1.0f);
+	}
+	
+	public void DidDoubleJump()
+	{
+		audio.PlayOneShot(doubleJump, 1.0f);
+	}
+	
+	public void OnDeath ()
+	{
+		audio.PlayOneShot (death, 1.0f);
 	}
 }
