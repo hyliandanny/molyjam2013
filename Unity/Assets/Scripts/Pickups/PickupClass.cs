@@ -4,7 +4,8 @@ using System.Collections;
 public enum PickupType {
 	R,
 	G,
-	B
+	B,
+	Black
 }
 public class PickupClass : MonoBehaviour {
 	public PickupType pickupType;

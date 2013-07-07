@@ -45,7 +45,8 @@ public class PickupManager : MonoBehaviour {
 	void HandlePickupCollectedMessage(Message msg) {
 		PickupCollectedMessage message = msg as PickupCollectedMessage;
 		if(message != null) {
-			pickupsGotten++;
+			if(message.Pickup.pickupType != PickupType.Black)
+				pickupsGotten++;
 			/*
 			// LOOTSIE
 			Debug.Log ("Obtained " + pickupsGotten + " essences.");
