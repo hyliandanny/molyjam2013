@@ -13,8 +13,9 @@ public class PickupClass : MonoBehaviour {
 	void Update () {
 	
 		// Don't leak objects; destroy when they get out of the screen
-		if (gameObject.transform.position.x <= 0.0f)
+		if (gameObject.transform.position.x <= Camera.main.ScreenToWorldPoint(new Vector3(0,0,0)).x)
 		{
+			Destroy(gameObject);
 		}
 		
 	}
