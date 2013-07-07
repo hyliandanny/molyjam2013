@@ -7,6 +7,15 @@ public class PickupManager : MonoBehaviour {
 	private int pickupsGotten = 0;
 	public static PickupManager instance = null;
 	
+	// Constants around pickup locations/sizes
+	public float MIN_SCALE = 1;
+	public float MAX_SCALE = 3;
+	float scale = 1;
+	public float MIN_HEIGHT = 7;
+	public float MAX_HEIGHT = 15;
+	float height = 6;
+	
+	
 	void Awake() {
 		Messenger.AddListener(typeof(StageCreatedMessage),HandleStageCreatedMessage);
 		Messenger.AddListener(typeof(ColorMessage),HandleColorMessage);
@@ -63,12 +72,6 @@ public class PickupManager : MonoBehaviour {
 			*/
 		}
 	}
-	public float MIN_SCALE = 1;
-	public float MAX_SCALE = 3;
-	float scale = 1;
-	public float MIN_HEIGHT = 3;
-	public float MAX_HEIGHT = 15;
-	float height = 6;
 	
 	void HandleColorMessage(Message msg) {
 		ColorMessage message = msg as ColorMessage;
