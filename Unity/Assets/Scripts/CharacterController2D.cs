@@ -8,15 +8,6 @@ using System.Collections.Generic;
 public class CharacterController2D : MonoBehaviour
 {
 	
-	IEnumerator Start() {
-		yield return new WaitForEndOfFrame();
-		Texture2D newScreen = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
-		newScreen.ReadPixels(new Rect(0,0,Screen.width,Screen.height), 0, 0);
-		newScreen.Apply();
-		screen = newScreen;
-		nextScreenPos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0f)).x;
-	}
-	
 	// Does this script currently respond to Input?
 	public bool canControl = true;
  
@@ -124,14 +115,6 @@ public class CharacterController2D : MonoBehaviour
 		[System.NonSerialized]
 		public float lastStartHeight = 0.0f;
 	}
-	
-	// Animation functions will be handled in this helper class.
-	[System.Serializable]
-	public class CharacterAnimation {
-		public AnimationClip idle, walk, jump,run;
-	}
-	
-	public CharacterAnimation animator = new CharacterAnimation();
  
 	public PlatformerControllerJumping jump = new PlatformerControllerJumping();
 	public CharacterController controller;
@@ -261,7 +244,7 @@ public class CharacterController2D : MonoBehaviour
 	void ApplyGravity ()
 	{
 		// Apply gravity
-		bool jumpButton = Input.GetButton ("Jump");
+		bool jumpButton = Input.GetButton ("Jump") || Input.GetButton("Fire1");
  
  
  
@@ -276,12 +259,12 @@ public class CharacterController2D : MonoBehaviour
  
 		// if we are jumping and we press jump button, we do a double jump or
 		// if we are falling, we can do a double jump to
-		if ((jump.jumping && Input.GetButtonUp ("Jump") && !jump.doubleJumping) || (!controller.isGrounded && !jump.jumping && !jump.doubleJumping && movement.verticalSpeed < -12.0f)) {
+		if ((jump.jumping && (Input.GetButtonUp ("Jump") || Input.GetButtonUp("Fire1")) && !jump.doubleJumping) || (!controller.isGrounded && !jump.jumping && !jump.doubleJumping && movement.verticalSpeed < -12.0f)) {
 			jump.canDoubleJump = true;
 		} 
  
 		// if we can do a double jump, and we press the jump button, we do a double jump
-		if (jump.canDoubleJump && Input.GetButtonDown ("Jump") && !IsTouchingCeiling ()) {
+		if (jump.canDoubleJump && (Input.GetButtonDown ("Jump") || Input.GetButtonDown("Fire1")) && !IsTouchingCeiling ()) {
 			jump.doubleJumping = true;
 			movement.verticalSpeed = CalculateJumpVerticalSpeed (jump.doubleJumpHeight);
 			SendMessage ("DidDoubleJump", SendMessageOptions.DontRequireReceiver);
@@ -337,7 +320,7 @@ public class CharacterController2D : MonoBehaviour
  
 	void Update ()
 	{
-		if (Input.GetButtonDown ("Jump") && canControl) {
+		if ((Input.GetButtonDown ("Jump") || Input.GetButtonDown("Fire1")) && canControl) {
 			jump.lastButtonTime = Time.time;
 			anim.SetBool("Jumping", true);
 		}
@@ -413,40 +396,6 @@ public class CharacterController2D : MonoBehaviour
 		// Update Animations
 		UpdateAnimations();
 		
-		// Screenshotter
-		//StartCoroutine(UpdateScreengrab());
-	}
-	
-	public static Texture2D screen = null;
-	float nextScreenPos;
-	
-	IEnumerator UpdateScreengrab() {
-		float leftEdge = Camera.main.ScreenToWorldPoint(Vector3.zero).x;
-		if(leftEdge > nextScreenPos) {
-			nextScreenPos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x;
-			Texture2D newScreen = null;
-			if(screen.width >= Screen.width*10) {
-				yield return new WaitForEndOfFrame();
-				newScreen = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
-				newScreen.ReadPixels(new Rect(0,0,Screen.width,Screen.height), 0, 0);
-				yield return 0;
-				byte[] bytes = screen.EncodeToPNG();
-				System.IO.File.WriteAllBytes(Application.dataPath+"/levelScreenshot-"+System.DateTime.Now.ToString("yyyyMMddhhmmss")+".png", bytes);
-				DestroyObject(screen);
-			}
-			else{
-				newScreen = new Texture2D(screen.width+Screen.width, Screen.height, TextureFormat.RGB24, false);			
-				yield return new WaitForEndOfFrame();
-				newScreen.SetPixels(0,0,screen.width,screen.height, screen.GetPixels());
-				yield return 0;
-				yield return new WaitForEndOfFrame();
-				newScreen.ReadPixels(new Rect(0,0, Screen.width, Screen.height), screen.width, 0);
-			}
-			if(newScreen != null) {
-				newScreen.Apply();
-				screen = newScreen;
-			}
-		}
 	}
 	
 	void UpdateAnimations() 
