@@ -46,6 +46,7 @@ public class PickupManager : MonoBehaviour {
 		PickupCollectedMessage message = msg as PickupCollectedMessage;
 		if(message != null) {
 			pickupsGotten++;
+			/*
 			// LOOTSIE
 			Debug.Log ("Obtained " + pickupsGotten + " essences.");
 			if (pickupsGotten == 10) {
@@ -59,6 +60,7 @@ public class PickupManager : MonoBehaviour {
 			} else if (pickupsGotten == 50) {
 				Lootsie.AchievementReached("ThisColorTastesLikeGaming");
 			}
+			*/
 		}
 	}
 	public float MIN_SCALE = 1;
