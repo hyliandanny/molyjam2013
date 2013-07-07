@@ -28,18 +28,34 @@ public class CurveGenerator : MonoBehaviour {
 			return mInstance;
 		}
 	}
+	int indexOfMinAmp = 0;
+	float minAmp = 1000;
 	public Vector2[] GetCurve(Terrain terrain, float startX, float length, int samples) {
+		indexOfMinAmp = 0;
+		minAmp = 1000;
+		for(int i = 0; i < mNumberOfCurves; i++) {
+			if(amplitudes[i] < minAmp) {
+				minAmp = amplitudes[i];
+				indexOfMinAmp = i;
+			}
+		}
 		float delta = length/samples;
 		Vector2[] curve = new Vector2[samples+1];
 		for(int i = 0; i < curve.Length; i++) {
-			curve[i] = new Vector2(i*delta,GetY(startX+i*delta));
+			curve[i] = new Vector2(i*delta,GetY(terrain,startX+i*delta));
 		}
 		return curve;
 	}
-	float GetY(float x) {
+	float GetY(Terrain terrain,float x) {
 		float y = 0;
 		for(int i = 0; i < mNumberOfCurves; i++) {
-			y += weights[i]*amplitudes[i]*Mathf.Sin(frequencies[i]*x+phases[i]);
+			if(terrain == Terrain.Ground) {
+				y += weights[i]*amplitudes[i]*Mathf.Sin(frequencies[i]*x+phases[i]);
+			}
+			else {
+				//THIS MULTIPLIER SHOULD BE VARIABLE BASED ON THE BLISS LEVEL
+				y += 3*Mathf.Abs(weights[i]*amplitudes[i]*Mathf.Sin(frequencies[i]*x+phases[i]));
+			}
 		}
 		return y;
 	}
