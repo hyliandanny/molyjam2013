@@ -6,9 +6,18 @@ public class GameOver : MonoBehaviour {
 	public GameObject[] menuItems;
 	public float panSpeed;
 	//public Camera miniMapCamera;
+	ColorPlanetGenerator planet;
 
 	// Use this for initialization
 	void OnEnable () {
+		//find the colorPlanetGenerator and turn it on
+		if(planet == null){
+			planet = FindObjectOfType(typeof(ColorPlanetGenerator)) as ColorPlanetGenerator;
+		} if(planet){
+			planet.CreatePlanet();
+			planet.transform.parent = Camera.main.transform;
+		}
+		
 		Vector3 cameraPos = Camera.main.transform.position;
 		cameraPos.x = LevelSectionTracker.instance.spawnPoint.position.x;
 		cameraPos.y = LevelSectionTracker.instance.spawnPoint.position.y + 2f;
