@@ -14,6 +14,7 @@ public class PlayerFollow : MonoBehaviour {
 	void Update () {
 		Vector3 myPos = transform.position;
 		myPos.x = character.position.x;
+		myPos.y = character.position.y;
 		transform.position = myPos;
 	}
 }
