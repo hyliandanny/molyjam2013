@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 public class LevelBuilder : MonoBehaviour {
+	public bool cheating = false;
 	float r = .4f;
 	float g = .4f;
 	float b = .4f;
@@ -30,12 +31,20 @@ public class LevelBuilder : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown(KeyCode.P)) {
-			CreatePlatform();
-		}
 		r = Mathf.Max(0,r-0.1f*Time.deltaTime);
 		g = Mathf.Max(0,g-0.1f*Time.deltaTime);
 		b = Mathf.Max(0,b-0.1f*Time.deltaTime);
+		
+		if(cheating) {
+			r = Mathf.Max(0.3f,r);
+			g = Mathf.Max(0.2f,g);
+			b = Mathf.Max(0.45f,b);
+		}
+		if(cheating && Input.GetKeyDown(KeyCode.C)) {
+			r = Random.Range(.5f,1f);
+			g = Random.Range(.5f,1f);
+			b = Random.Range(.5f,1f);
+		}
 		Messenger.Invoke(typeof(ColorMessage),new ColorMessage(r,g,b));
 	}
 	

@@ -149,6 +149,7 @@ public class CharacterController2D : MonoBehaviour
  
 	void Awake ()
 	{
+		Messenger.AddListener(typeof(ColorMessage),HandleColorMessage);
 		anim = GetComponentInChildren<Animator>();
 		movement.direction = transform.TransformDirection (Vector3.forward);
 		controller = GetComponent<CharacterController> ();
@@ -158,7 +159,10 @@ public class CharacterController2D : MonoBehaviour
 //		animation.AddClip(animator.walk, "walk");
 		Spawn ();
 	}
- 
+ 	void OnDestroy()
+	{
+		Messenger.RemoveListener(typeof(ColorMessage),HandleColorMessage);
+	}
 	void Spawn ()
 	{
 		// reset the character's speed
@@ -408,7 +412,7 @@ public class CharacterController2D : MonoBehaviour
 		UpdateAnimations();
 		
 		// Screenshotter
-		StartCoroutine(UpdateScreengrab());
+		//StartCoroutine(UpdateScreengrab());
 	}
 	
 	public static Texture2D screen = null;
@@ -514,5 +518,15 @@ public class CharacterController2D : MonoBehaviour
 	{
 		canControl = controllable;
 	}
-
+	float MAX_GRAVITY = 60;
+	float MIN_GRAVITY = 20;
+	float MIN_WALK_SPEED = 10;
+	float MAX_WALK_SPEED = 15;
+	void HandleColorMessage(Message msg) {
+		ColorMessage message = msg as ColorMessage;
+		if(message != null) {
+			movement.gravity = MAX_GRAVITY-message.Percent*MIN_GRAVITY;
+			//movement.walkSpeed = message.Percent*(MAX_WALK_SPEED-MIN_WALK_SPEED)+MIN_WALK_SPEED;
+		}
+	}
 }
