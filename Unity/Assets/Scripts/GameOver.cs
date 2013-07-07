@@ -6,6 +6,7 @@ public class GameOver : MonoBehaviour {
 	public GameObject[] menuItems;
 	public float panSpeed;
 	public Camera miniMapCamera;
+	int screen = 0;
 
 	// Use this for initialization
 	void OnEnable () {
@@ -16,6 +17,11 @@ public class GameOver : MonoBehaviour {
 		camFollow.enabled = false;
 		miniMapCamera.gameObject.SetActive(false);
 		StartCoroutine(PanCamera());
+	}
+	
+	void OnGUI() {
+		//screen++;
+		GUI.Label(new Rect(0,0, Screen.width, Screen.height), CharacterController2D.screen);
 	}
 	
 	// Update is called once per frame
