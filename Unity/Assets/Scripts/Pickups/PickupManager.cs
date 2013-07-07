@@ -10,12 +10,14 @@ public class PickupManager : MonoBehaviour {
 	void Awake() {
 		Messenger.AddListener(typeof(StageCreatedMessage),HandleStageCreatedMessage);
 		Messenger.AddListener(typeof(ColorMessage),HandleColorMessage);
+		Messenger.AddListener(typeof(PickupCollectedMessage), HandlePickupCollectedMessage);
 		if (instance == null)
 			instance = this;
 	}
 	void OnDestroy() {
 		Messenger.RemoveListener(typeof(StageCreatedMessage),HandleStageCreatedMessage);
 		Messenger.RemoveListener(typeof(ColorMessage),HandleColorMessage);
+		Messenger.RemoveListener (typeof(PickupCollectedMessage), HandlePickupCollectedMessage);
 	}
 	
 	// Use this for initialization
@@ -45,6 +47,7 @@ public class PickupManager : MonoBehaviour {
 		if(message != null) {
 			pickupsGotten++;
 			// LOOTSIE
+			Debug.Log ("Obtained " + pickupsGotten + " essences.");
 			if (pickupsGotten == 10) {
 				Lootsie.AchievementReached("TheColors");
 			} else if (pickupsGotten == 20) {

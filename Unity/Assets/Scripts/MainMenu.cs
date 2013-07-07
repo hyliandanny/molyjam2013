@@ -7,7 +7,9 @@ public class MainMenu : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		// LOOTSIE
+		Lootsie.Start();
+		Lootsie.StartGame();
 	}
 	
 	// Update is called once per frame
