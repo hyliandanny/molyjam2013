@@ -11,9 +11,11 @@ public class SoundManager : MonoBehaviour {
 	
 	void Awake() {
 		Messenger.AddListener(typeof(PickupCollectedMessage),HandlePickupCollectedMessage);
+		Messenger.AddListener(typeof(GameLostMessage),HandleGameLostMessage);
 	}
 	void OnDestroy() {
 		Messenger.RemoveListener(typeof(PickupCollectedMessage),HandlePickupCollectedMessage);
+		Messenger.RemoveListener(typeof(GameLostMessage),HandleGameLostMessage);
 	}
 	void HandlePickupCollectedMessage(Message msg) {
 		PickupCollectedMessage message = msg as PickupCollectedMessage;
@@ -32,8 +34,11 @@ public class SoundManager : MonoBehaviour {
 		audio.PlayOneShot(doubleJump, 1.0f);
 	}
 	
-	public void OnDeath ()
+	public void HandleGameLostMessage (Message msg)
 	{
-		audio.PlayOneShot (death, 1.0f);
+		GameLostMessage message = msg as GameLostMessage;
+		if(message != null) {
+			audio.PlayOneShot (death, 1.0f);
+		}
 	}
 }
