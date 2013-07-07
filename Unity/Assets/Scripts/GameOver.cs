@@ -16,6 +16,10 @@ public class GameOver : MonoBehaviour {
 		} if(planet){
 			planet.CreatePlanet();
 			planet.transform.parent = Camera.main.transform;
+			Vector3 nPos = planet.transform.localPosition;
+			nPos.x = 0;
+			nPos.y = 0;
+			planet.transform.localPosition = nPos;
 		}
 		
 		Vector3 cameraPos = Camera.main.transform.position;
