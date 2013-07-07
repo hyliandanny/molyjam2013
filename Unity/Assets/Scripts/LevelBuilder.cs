@@ -34,7 +34,7 @@ public class LevelBuilder : MonoBehaviour {
 	
 	PlatformGenerator recentPlatformGenerator;
 	int platformNumber = 0;
-	float lastX = -10;
+	float lastX = -30;
 	float lastY = 0;
 	void Awake() {
 		Messenger.AddListener(typeof(PickupCollectedMessage),HandlePickupCollectedMessage);
