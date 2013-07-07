@@ -212,9 +212,11 @@ public class CharacterController2D : MonoBehaviour
 			float targetSpeed = Mathf.Min (Mathf.Abs (h), 1.0f);
  
 			// Pick speed modifier
+			/*
 			if (Input.GetButton ("Fire2") && canControl)
 				targetSpeed *= movement.runSpeed;
 			else
+			*/
 				targetSpeed *= movement.walkSpeed;
  
 			movement.speed = Mathf.Lerp (movement.speed, targetSpeed, curSmooth);
@@ -422,12 +424,28 @@ public class CharacterController2D : MonoBehaviour
 		float leftEdge = Camera.main.ScreenToWorldPoint(Vector3.zero).x;
 		if(leftEdge > nextScreenPos) {
 			nextScreenPos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x;
-			yield return new WaitForEndOfFrame();
-			Texture2D newScreen = new Texture2D(screen.width+Screen.width, Screen.height, TextureFormat.RGB24, false);
-			newScreen.SetPixels(0,0,screen.width,screen.height, screen.GetPixels());
-			newScreen.ReadPixels(new Rect(0,0, Screen.width, Screen.height), screen.width, 0);
-			newScreen.Apply();
-			screen = newScreen;
+			Texture2D newScreen = null;
+			if(screen.width >= Screen.width*10) {
+				yield return new WaitForEndOfFrame();
+				newScreen = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+				newScreen.ReadPixels(new Rect(0,0,Screen.width,Screen.height), 0, 0);
+				yield return 0;
+				byte[] bytes = screen.EncodeToPNG();
+				System.IO.File.WriteAllBytes(Application.dataPath+"/levelScreenshot-"+System.DateTime.Now.ToString("yyyyMMddhhmmss")+".png", bytes);
+				DestroyObject(screen);
+			}
+			else{
+				newScreen = new Texture2D(screen.width+Screen.width, Screen.height, TextureFormat.RGB24, false);			
+				yield return new WaitForEndOfFrame();
+				newScreen.SetPixels(0,0,screen.width,screen.height, screen.GetPixels());
+				yield return 0;
+				yield return new WaitForEndOfFrame();
+				newScreen.ReadPixels(new Rect(0,0, Screen.width, Screen.height), screen.width, 0);
+			}
+			if(newScreen != null) {
+				newScreen.Apply();
+				screen = newScreen;
+			}
 		}
 	}
 	
