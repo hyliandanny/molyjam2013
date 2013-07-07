@@ -9,11 +9,11 @@ public class LevelBuilder : MonoBehaviour {
 	List<PlatformGenerator> platforms;
 	void Awake() {
 		platforms = new List<PlatformGenerator>();
-		CreatePlatform();
+		
 	}
 	// Use this for initialization
 	void Start () {
-	
+		CreatePlatform();
 	}
 	
 	// Update is called once per frame
@@ -28,7 +28,7 @@ public class LevelBuilder : MonoBehaviour {
 		platforms.Add(pg);
 		pg.transform.parent = transform;
 		pg.transform.position = new Vector3(lastX,0,0);
-		pg.mLength = 20;
+		pg.mLength = Random.Range(40,80);
 		pg.GeneratePlatform();
 		
 		
@@ -36,5 +36,7 @@ public class LevelBuilder : MonoBehaviour {
 		
 		lastX = pg.EndX();
 		lastY = pg.EndY();
+		
+		Messenger.Invoke(typeof(StageCreatedMessage),new StageCreatedMessage(pg.transform.position.x,pg.EndX()));
 	}
 }

@@ -23,8 +23,8 @@ public class PickupClass : MonoBehaviour {
 		// Pickup has been picked up by player?
 		if (obj is CharacterController)
 		{
+			Messenger.Invoke(typeof(PickupCollectedMessage),new PickupCollectedMessage(this));
 			// have the manager process the pickup and handle everything a dumb pickup itself shouldn't know about
-			PickupManager.instance.OnPickup(obj.gameObject);
 			
 			// Your life is over, pickup.  Time to die.
 			Destroy(gameObject);

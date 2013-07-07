@@ -8,37 +8,35 @@ public class PickupManager : MonoBehaviour {
 	public static PickupManager instance = null;
 	
 	void Awake() {
+		Messenger.AddListener(typeof(StageCreatedMessage),HandleStageCreatedMessage);
 		if (instance == null)
 			instance = this;
 	}
 	
 	// Use this for initialization
 	void Start () {
-	
+		
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		// Generate the pickups
-		
-		// This is just a temporary debugging mechanism. Make this time-based.
-		if (Input.GetKeyDown(KeyCode.J))
-		{
-			GameObject pickupObject = (GameObject)Instantiate(pickupPrefab);
-			Vector3 pickupPosition = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width,Screen.height/2f,0f));
-			//pickupPosition.y = 0.0f;
-			pickupPosition.z = 0.0f;
-			pickupObject.transform.position = pickupPosition;
-		
+	void HandleStageCreatedMessage(Message msg) {
+		StageCreatedMessage message = msg as StageCreatedMessage;
+		if(message != null) {
+			Debug.Log(message.StartX + " " + message.EndX);
+			
+			for(int i = 0; i < 3; i++) {
+				float x = Mathf.Max(30,Random.Range(message.StartX,message.EndX));
+				RaycastHit hit;
+				if(Physics.Raycast(new Vector3(x,1000,0),Vector3.down,out hit)) {
+					float y = hit.point.y + Random.Range(1,5);
+					GameObject pickupObject = (GameObject)Instantiate(pickupPrefab);
+					pickupObject.transform.position = new Vector3(x,y,0);
+				}
+			}
 		}
 	}
-	
-	// Do everything required for a pickup event outside of the pickup itself
-	public void OnPickup (GameObject character) {
-		// Keep score
-		pickupsGotten++;
-		
-		// Handle music/sound
-		character.SendMessage("OnPickup");
+	void HandlePickupCollectedMessage(Message msg) {
+		PickupCollectedMessage message = msg as PickupCollectedMessage;
+		if(message != null) {
+			pickupsGotten++;
+		}
 	}
 }
