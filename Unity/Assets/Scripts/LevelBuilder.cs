@@ -16,6 +16,10 @@ public class LevelBuilder : MonoBehaviour {
 		pickupTypes = new List<PickupType>();
 		
 	}
+	void OnDestroy() {
+		Messenger.RemoveListener(typeof(PickupCollectedMessage),HandlePickupCollectedMessage);
+		Messenger.RemoveListener(typeof(NextPlatformReachedMessage),HandleNextPlatformReachedMessage);
+	}
 	// Use this for initialization
 	void Start () {
 		CreatePlatform();

@@ -12,6 +12,9 @@ public class SoundManager : MonoBehaviour {
 	void Awake() {
 		Messenger.AddListener(typeof(PickupCollectedMessage),HandlePickupCollectedMessage);
 	}
+	void OnDestroy() {
+		Messenger.RemoveListener(typeof(PickupCollectedMessage),HandlePickupCollectedMessage);
+	}
 	void HandlePickupCollectedMessage(Message msg) {
 		PickupCollectedMessage message = msg as PickupCollectedMessage;
 		if(message != null) {

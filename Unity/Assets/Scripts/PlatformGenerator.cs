@@ -28,6 +28,9 @@ public class PlatformGenerator : MonoBehaviour {
 	void Awake() {
 		Messenger.AddListener(typeof(PlayerDistanceMessage),HandlePlayerDistanceMessage);
 	}
+	void OnDestroy() {
+		Messenger.RemoveListener(typeof(PlayerDistanceMessage),HandlePlayerDistanceMessage);
+	}
 	public void GeneratePlatform() {
 		playerHasReachedThePlatform = false;
 		if(mLength < 0) {

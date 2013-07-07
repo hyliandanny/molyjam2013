@@ -12,6 +12,9 @@ public class PickupManager : MonoBehaviour {
 		if (instance == null)
 			instance = this;
 	}
+	void OnDestroy() {
+		Messenger.RemoveListener(typeof(StageCreatedMessage),HandleStageCreatedMessage);
+	}
 	
 	// Use this for initialization
 	void Start () {
