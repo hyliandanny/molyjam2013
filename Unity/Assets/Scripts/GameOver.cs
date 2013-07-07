@@ -11,6 +11,7 @@ public class GameOver : MonoBehaviour {
 	void OnEnable () {
 		Vector3 cameraPos = Camera.main.transform.position;
 		cameraPos.x = LevelSectionTracker.instance.spawnPoint.position.x;
+		cameraPos.y = LevelSectionTracker.instance.spawnPoint.position.y;
 		Camera.main.transform.position = cameraPos;
 		PlayerFollow camFollow = Camera.main.GetComponent<PlayerFollow>();
 		camFollow.enabled = false;
