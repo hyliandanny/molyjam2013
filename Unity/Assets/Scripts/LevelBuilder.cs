@@ -86,7 +86,7 @@ public class LevelBuilder : MonoBehaviour {
 		lastY = pg.EndY();
 		
 		recentPlatformGenerator = pg;
-		Messenger.Invoke(typeof(StageCreatedMessage),new StageCreatedMessage(pg.transform.position.x,pg.EndX()));
+		Messenger.Invoke(typeof(StageCreatedMessage),new StageCreatedMessage(pg.transform.position.x,pg.EndX(),r,g,b));
 	}
 	void HandlePickupCollectedMessage(Message msg) {
 		PickupCollectedMessage message = msg as PickupCollectedMessage;
