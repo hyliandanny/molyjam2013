@@ -124,6 +124,7 @@ public class CharacterController2D : MonoBehaviour
 	Vector3 activeLocalPlatformPoint;
 	Vector3 activeGlobalPlatformPoint;
 	Vector3 lastPlatformVelocity;
+	bool blissedOut = false;
  
 	// This is used to keep track of special effects in UpdateEffects ();
 	bool areEmittersOn = false;
@@ -133,6 +134,7 @@ public class CharacterController2D : MonoBehaviour
 	void Awake ()
 	{
 		Messenger.AddListener(typeof(ColorMessage),HandleColorMessage);
+		Messenger.AddListener(typeof(BlissedOutMessage), HandleBliss);
 		Messenger.AddListener(typeof(GameLostMessage),HandleGameLostMessage);
 		anim = GetComponentInChildren<Animator>();
 		movement.direction = transform.TransformDirection (Vector3.forward);
@@ -143,9 +145,65 @@ public class CharacterController2D : MonoBehaviour
 //		animation.AddClip(animator.walk, "walk");
 		Spawn ();
 	}
+	
+	void HandleBliss(Message msg) {
+		BlissedOutMessage bMsg = msg as BlissedOutMessage;
+		if(bMsg != null) {
+			if(!blissedOut && bMsg.blissingOut) {
+				blissedOut = true;
+				StartCoroutine(StartBlissing());
+			}
+			else if (blissedOut && !bMsg.blissingOut) {
+				blissedOut = false;
+				StartCoroutine(StopBlissing());
+			}
+		}
+	}
+	
+	IEnumerator StartBlissing() {
+		controller.enabled = false;
+		movement.walkSpeed = 50;
+		movement.velocity = Vector3.zero;
+		float startTime = Time.time;
+		Vector3 mySize = transform.localScale;
+		Vector3 startSize = transform.localScale;
+		Vector3 newSize = new Vector3(10f, 10f, 10f);
+		while(Mathf.Abs(mySize.x - newSize.x) > 0.01f) {
+			float transformDelta = Time.deltaTime * 7f;
+			mySize = Vector3.Lerp(startSize, newSize, (Time.time - startTime) / 2f);
+			Vector3 myPos = transform.position;
+			myPos += new Vector3(transformDelta, transformDelta, 0f);
+			transform.localScale = mySize;
+			transform.position = myPos;
+			yield return new WaitForSeconds(0);
+		}
+		transform.localScale = newSize;
+		controller.enabled = true;
+	}
+	
+	IEnumerator StopBlissing() {
+		controller.enabled = false;
+		movement.walkSpeed = 10;
+		movement.velocity = Vector3.zero;
+		movement.speed = 0f;
+		movement.inAirVelocity = Vector3.zero;
+		float startTime = Time.time;
+		Vector3 mySize = transform.localScale;
+		Vector3 startSize = transform.localScale;
+		Vector3 newSize = new Vector3(1f, 1f, 1f);
+		while(Mathf.Abs(mySize.x - newSize.x) > 0.01f) {
+			float transformDelta = Time.deltaTime * 7f;
+			mySize = Vector3.Lerp(startSize, newSize, (Time.time - startTime) / 2f);
+			transform.localScale = mySize;
+			yield return new WaitForSeconds(0);
+		}
+		controller.enabled = true;
+	}
+	
  	void OnDestroy()
 	{
 		Messenger.RemoveListener(typeof(ColorMessage),HandleColorMessage);
+		Messenger.RemoveListener(typeof(BlissedOutMessage),HandleBliss);
 		Messenger.RemoveListener(typeof(GameLostMessage),HandleGameLostMessage);
 	}
 	void Spawn ()

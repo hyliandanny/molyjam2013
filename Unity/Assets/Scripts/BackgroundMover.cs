@@ -52,7 +52,11 @@ public class BackgroundMover : MonoBehaviour {
 	void HandleColorMessage(Message msg) {
 		ColorMessage message = msg as ColorMessage;
 		if(message != null) {
-			recentPlatformGenerator.SetBackgroundColor(1-message.R,1-message.G,1-message.B);
+			recentPlatformGenerator.SetBackgroundColor(
+				(0.9f * message.R), 
+				(1.2f * message.G),
+				(0.8f * message.B)
+			);
 			//recentPlatformGenerator.SetBackgroundColor(message.R,message.G,message.B);
 		}
 	}
