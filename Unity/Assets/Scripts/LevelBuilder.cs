@@ -2,6 +2,29 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 public class LevelBuilder : MonoBehaviour {
+	static LevelBuilder mInstance;
+	public static LevelBuilder Instance {
+		get {
+			return mInstance;
+		}
+	}
+	
+	public float R {
+		get {
+			return r;
+		}
+	}
+	public float G {
+		get {
+			return g;
+		}
+	}
+	public float B {
+		get {
+			return b;
+		}
+	}
+	
 	public bool cheating = false;
 	float r = .4f;
 	float g = .4f;
@@ -15,12 +38,11 @@ public class LevelBuilder : MonoBehaviour {
 	float lastY = 0;
 	void Awake() {
 		Messenger.AddListener(typeof(PickupCollectedMessage),HandlePickupCollectedMessage);
-		Messenger.AddListener(typeof(NextPlatformReachedMessage),HandleNextPlatformReachedMessage);
 		Messenger.AddListener(typeof(PlayerDistanceMessage),HandlePlayerDistanceMessage);
+		mInstance = this;
 	}
 	void OnDestroy() {
 		Messenger.RemoveListener(typeof(PickupCollectedMessage),HandlePickupCollectedMessage);
-		Messenger.RemoveListener(typeof(NextPlatformReachedMessage),HandleNextPlatformReachedMessage);
 		Messenger.RemoveListener(typeof(PlayerDistanceMessage),HandlePlayerDistanceMessage);
 	}
 	// Use this for initialization
@@ -45,6 +67,7 @@ public class LevelBuilder : MonoBehaviour {
 			g = Random.Range(.5f,1f);
 			b = Random.Range(.5f,1f);
 		}
+		recentPlatformGenerator.SetBackgroundColor(r,g,b);
 		Messenger.Invoke(typeof(ColorMessage),new ColorMessage(r,g,b));
 	}
 	
@@ -58,7 +81,7 @@ public class LevelBuilder : MonoBehaviour {
 		
 		
 		pg.transform.position = new Vector3(lastX,lastY - pg.StartY(),0);
-		pg.SetColor(r,g,b);
+		pg.SetForegroundColor(r,g,b);
 		lastX = pg.EndX();
 		lastY = pg.EndY();
 		
@@ -89,14 +112,6 @@ public class LevelBuilder : MonoBehaviour {
 					CreatePlatform();
 				}
 			}
-		}
-	}
-	void HandleNextPlatformReachedMessage(Message msg) {
-		NextPlatformReachedMessage message = msg as NextPlatformReachedMessage;
-		if(message != null) {
-			//if(r > 0.1 || g > 0.1 || b > 0.1) {
-			//	CreatePlatform();
-			//}
 		}
 	}
 }
