@@ -225,7 +225,7 @@ public class CharacterController2D : MonoBehaviour
 		if (jump.lastTime + jump.repeatTime > Time.time)
 			return;
  
-		if (controller.isGrounded) {
+		if (!IsJumping() || canDoubleJump()) {
 			// Jump
 			// - Only when pressing the button down
 			// - With a timeout so you can press the button slightly before landing		
