@@ -54,7 +54,7 @@ public class CurveGenerator : MonoBehaviour {
 			}
 			else {
 				//THIS MULTIPLIER SHOULD BE VARIABLE BASED ON THE BLISS LEVEL
-				y += 3*Mathf.Abs(weights[i]*amplitudes[i]*Mathf.Sin(frequencies[i]*x+phases[i]));
+				y += weights[i]*amplitudes[i]*Mathf.Sin(frequencies[i]*x+phases[i]);
 			}
 		}
 		return y;

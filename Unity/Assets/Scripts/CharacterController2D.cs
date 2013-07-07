@@ -133,6 +133,7 @@ public class CharacterController2D : MonoBehaviour
 	void Awake ()
 	{
 		Messenger.AddListener(typeof(ColorMessage),HandleColorMessage);
+		Messenger.AddListener(typeof(GameLostMessage),HandleGameLostMessage);
 		anim = GetComponentInChildren<Animator>();
 		movement.direction = transform.TransformDirection (Vector3.forward);
 		controller = GetComponent<CharacterController> ();
@@ -145,6 +146,7 @@ public class CharacterController2D : MonoBehaviour
  	void OnDestroy()
 	{
 		Messenger.RemoveListener(typeof(ColorMessage),HandleColorMessage);
+		Messenger.RemoveListener(typeof(GameLostMessage),HandleGameLostMessage);
 	}
 	void Spawn ()
 	{
@@ -159,16 +161,19 @@ public class CharacterController2D : MonoBehaviour
 	
 	public GameOver gameOver;
  
-	public void OnDeath ()
+	public void HandleGameLostMessage (Message msg)
 	{
-		LevelSectionTracker.farthestPoint = transform.position.x;
-		//Spawn ();
-		foreach(Transform aChild in transform) {
-			aChild.gameObject.SetActive(false);
+		GameLostMessage message = msg as GameLostMessage;
+		if(message != null) {
+			LevelSectionTracker.farthestPoint = transform.position.x;
+			//Spawn ();
+			foreach(Transform aChild in transform) {
+				aChild.gameObject.SetActive(false);
+			}
+			//renderer.enabled = false;
+			enabled= false;
+			gameOver.gameObject.SetActive(true);
 		}
-		//renderer.enabled = false;
-		enabled= false;
-		gameOver.gameObject.SetActive(true);
 	}
  
 	void UpdateSmoothedMovementDirection ()

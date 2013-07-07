@@ -34,8 +34,9 @@ public class LevelBuilder : MonoBehaviour {
 	
 	PlatformGenerator recentPlatformGenerator;
 	int platformNumber = 0;
-	float lastX = -10;
+	float lastX = -30;
 	float lastY = 0;
+	bool gameLost = false;
 	void Awake() {
 		Messenger.AddListener(typeof(PickupCollectedMessage),HandlePickupCollectedMessage);
 		Messenger.AddListener(typeof(PlayerDistanceMessage),HandlePlayerDistanceMessage);
@@ -86,7 +87,7 @@ public class LevelBuilder : MonoBehaviour {
 		lastY = pg.EndY();
 		
 		recentPlatformGenerator = pg;
-		Messenger.Invoke(typeof(StageCreatedMessage),new StageCreatedMessage(pg.transform.position.x,pg.EndX()));
+		Messenger.Invoke(typeof(StageCreatedMessage),new StageCreatedMessage(pg.transform.position.x,pg.EndX(),r,g,b));
 	}
 	void HandlePickupCollectedMessage(Message msg) {
 		PickupCollectedMessage message = msg as PickupCollectedMessage;
@@ -107,10 +108,15 @@ public class LevelBuilder : MonoBehaviour {
 	void HandlePlayerDistanceMessage(Message msg) {
 		PlayerDistanceMessage message = msg as PlayerDistanceMessage;
 		if(message != null) {
+			Debug.Log(recentPlatformGenerator.EndX()-message.Distance);
 			if(recentPlatformGenerator.EndX()-message.Distance < 15) {
 				if(r > 0.1 || g > 0.1 || b > 0.1) {
 					CreatePlatform();
 				}
+			}
+			if(!gameLost && recentPlatformGenerator.EndX()-message.Distance < -10) {
+				gameLost = true;
+				Messenger.Invoke(typeof(GameLostMessage),new GameLostMessage());
 			}
 		}
 	}

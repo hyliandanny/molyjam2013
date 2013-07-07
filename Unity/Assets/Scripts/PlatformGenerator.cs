@@ -32,7 +32,7 @@ public class PlatformGenerator : MonoBehaviour {
 	void OnDestroy() {
 		Messenger.RemoveListener(typeof(PlayerDistanceMessage),HandlePlayerDistanceMessage);
 	}
-	public void GeneratePlatform() {
+	public void GeneratePlatform(float x){
 		playerHasReachedThePlatform = false;
 		if(mLength < 0) {
 			mLength = 0;
@@ -51,44 +51,27 @@ public class PlatformGenerator : MonoBehaviour {
 				physics = t.GetComponent<DynamicPhysicsMesh>();
 			}
 		}
-		
-		if(foreground == null) {
-			GameObject go = new GameObject("foreground");
-			go.transform.parent = transform;
-			go.transform.localPosition = Vector3.zero;
-			foreground = go.AddComponent<DynamicRenderMesh>();
-			foreground.type = DynamicMeshType.Foreground;
-		}
-		if(border == null) {
-			GameObject go = new GameObject("border");
-			go.transform.parent = transform;
-			go.transform.localPosition = Vector3.zero;
-			border = go.AddComponent<DynamicRenderMesh>();
-			border.type = DynamicMeshType.Border;
-		}
-		if(background == null) {
-			GameObject go = new GameObject("background");
-			go.transform.parent = transform;
-			go.transform.localPosition = Vector3.zero;
-			background = go.AddComponent<DynamicRenderMesh>();
-			background.type = DynamicMeshType.Background;
-		}
-		if(physics == null) {
-			GameObject go = new GameObject("physics");
-			go.transform.parent = transform;
-			go.transform.localPosition = Vector3.zero;
-			physics = go.AddComponent<DynamicPhysicsMesh>();
-			physics.type = DynamicMeshType.Physics;
-		}
-		
-		Vector2[] curve = CurveGenerator.Instance.GetCurve(Terrain.Ground,transform.position.x,mLength,(int)Mathf.Round(mLength*10));
-		Vector2[] uppercurve = CurveGenerator.Instance.GetCurve(Terrain.Hill,transform.position.x,mLength,(int)Mathf.Round(mLength*10));
-		physics.Generate(curve);
-		foreground.Generate(curve);
-		background.Generate(uppercurve);
-		border.Generate(curve);
+		Vector2[] curve = CurveGenerator.Instance.GetCurve(Terrain.Ground,x,mLength,(int)Mathf.Round(mLength*10));
+		Vector2[] uppercurve = CurveGenerator.Instance.GetCurve(Terrain.Hill,x,mLength,(int)Mathf.Round(mLength*10));
 		mStartHeight = curve[0].y;
 		mEndHeight = curve[curve.Length-1].y;
+		if(physics) {
+			physics.Generate(curve);
+		}
+		if(foreground) {
+			foreground.Generate(curve);
+		}
+		if(background != null) {
+			background.Generate(uppercurve);
+			mStartHeight = uppercurve[0].y;
+			mEndHeight = uppercurve[uppercurve.Length-1].y;
+		}
+		if(border) {
+			border.Generate(curve);
+		}
+	}
+	public void GeneratePlatform() {
+		GeneratePlatform(transform.position.x);
 	}
 	void HandlePlayerDistanceMessage(Message msg) {
 		PlayerDistanceMessage message = msg as PlayerDistanceMessage;
@@ -100,10 +83,16 @@ public class PlatformGenerator : MonoBehaviour {
 		}
 	}
 	public void SetForegroundColor(float r, float g, float b) {
-		foreground.GetComponent<ColorMix>().SetColor(r,g,b);
-		border.GetComponent<ColorMix>().SetColor(r,g,b);
+		if(foreground) {
+			foreground.GetComponent<ColorMix>().SetColor(r,g,b);
+		}
+		if(border) {
+			border.GetComponent<ColorMix>().SetColor(r,g,b);
+		}
 	}
 	public void SetBackgroundColor(float r, float g, float b) {
-		background.GetComponent<ColorMix>().SetColor(r,g,b);
+		if(background) {
+			background.GetComponent<ColorMix>().SetColor(r,g,b);
+		}
 	}
 }
