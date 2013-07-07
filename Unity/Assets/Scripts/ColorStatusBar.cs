@@ -32,6 +32,15 @@ public class ColorStatusBar : MonoBehaviour {
 	void Update () {
 		if(!blissedOutMode) {
 			if(blue.transform.localScale.x >= 10f && red.transform.localScale.x >= 10f && green.transform.localScale.x >= 10f) {
+				blissedOutMode = true;
+				Messenger.Invoke(typeof(BlissedOutMessage), new BlissedOutMessage(true));
+				flareEffect.enabled = true;
+				StartCoroutine(EndBlissMode());
+			}
+		}
+		if(Input.GetKeyDown(KeyCode.A)) {
+			if(!blissedOutMode) {
+				blissedOutMode = true;
 				Messenger.Invoke(typeof(BlissedOutMessage), new BlissedOutMessage(true));
 				flareEffect.enabled = true;
 				StartCoroutine(EndBlissMode());
@@ -40,7 +49,7 @@ public class ColorStatusBar : MonoBehaviour {
 	}
 	
 	IEnumerator EndBlissMode() {
-		yield return new WaitForSeconds(30f);
+		yield return new WaitForSeconds(15f);
 		flareEffect.enabled = false;
 		red.transform.localScale = redS;
 		blue.transform.localScale = blueS;
