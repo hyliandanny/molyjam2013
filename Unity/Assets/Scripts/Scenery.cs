@@ -4,12 +4,20 @@ using System.Collections;
 public class Scenery : MonoBehaviour {
 	
 	void Awake() {
-		Messenger.AddListener(typeof(PickupCollectedMessage),HandlePickupCollectedMessage);
-		Messenger.AddListener(typeof(NextPlatformReachedMessage),HandleNextPlatformReachedMessage);
+		//Messenger.AddListener(typeof(PickupCollectedMessage),HandlePickupCollectedMessage);
+		//Messenger.AddListener(typeof(NextPlatformReachedMessage),HandleNextPlatformReachedMessage);
+		Messenger.AddListener(typeof(ColorMessage),HandleColorMessage);
 	}
 	void OnDestroy() {
-		Messenger.RemoveListener(typeof(PickupCollectedMessage),HandlePickupCollectedMessage);
-		Messenger.RemoveListener(typeof(NextPlatformReachedMessage),HandleNextPlatformReachedMessage);
+		//Messenger.RemoveListener(typeof(PickupCollectedMessage),HandlePickupCollectedMessage);
+		//Messenger.RemoveListener(typeof(NextPlatformReachedMessage),HandleNextPlatformReachedMessage);
+		Messenger.RemoveListener(typeof(ColorMessage),HandleColorMessage);
+	}
+	void HandleColorMessage(Message msg) {
+		ColorMessage message = msg as ColorMessage;
+		if(message != null) {
+			GetComponent<ColorMix>().SetColor(message.R,message.G,message.B);
+		}
 	}
 	void HandlePickupCollectedMessage(Message msg) {
 		PickupCollectedMessage message = msg as PickupCollectedMessage;

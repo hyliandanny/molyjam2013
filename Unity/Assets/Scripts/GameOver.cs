@@ -15,9 +15,14 @@ public class GameOver : MonoBehaviour {
 		PlayerFollow camFollow = Camera.main.GetComponent<PlayerFollow>();
 		camFollow.enabled = false;
 		miniMapCamera.gameObject.SetActive(false);
+		if( CharacterController2D.screen != null) {
+			byte[] bytes = CharacterController2D.screen.EncodeToPNG();
+			System.IO.File.WriteAllBytes(Application.dataPath+"/levelScreenshot-"+System.DateTime.Now.ToString("yyyyMMddhhmmss")+".png", bytes);
+			DestroyObject(CharacterController2D.screen);
+		}
 		StartCoroutine(PanCamera());
 	}
-	
+		
 	// Update is called once per frame
 	void Update () {
 		if(Input.GetButtonDown("Fire1")) {

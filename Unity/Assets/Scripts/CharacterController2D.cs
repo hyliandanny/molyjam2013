@@ -1,11 +1,22 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 // Require a character controller to be attached to the same game object
 [RequireComponent (typeof(CharacterController))]
 [AddComponentMenu ("2D Platformer/Platformer Controller")]
 public class CharacterController2D : MonoBehaviour
 {
+	
+	IEnumerator Start() {
+		yield return new WaitForEndOfFrame();
+		Texture2D newScreen = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+		newScreen.ReadPixels(new Rect(0,0,Screen.width,Screen.height), 0, 0);
+		newScreen.Apply();
+		screen = newScreen;
+		nextScreenPos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0f)).x;
+	}
+	
 	// Does this script currently respond to Input?
 	public bool canControl = true;
  
@@ -133,18 +144,25 @@ public class CharacterController2D : MonoBehaviour
  
 	// This is used to keep track of special effects in UpdateEffects ();
 	bool areEmittersOn = false;
+	
+	Animator anim;
  
 	void Awake ()
 	{
+		Messenger.AddListener(typeof(ColorMessage),HandleColorMessage);
+		anim = GetComponentInChildren<Animator>();
 		movement.direction = transform.TransformDirection (Vector3.forward);
 		controller = GetComponent<CharacterController> ();
-		animation.AddClip(animator.jump, "jump");
-		animation.AddClip(animator.idle, "idle");
-		animation.AddClip(animator.run, "run");
-		animation.AddClip(animator.walk, "walk");
+//		animation.AddClip(animator.jump, "jump");
+//		animation.AddClip(animator.idle, "idle");
+//		animation.AddClip(animator.run, "run");
+//		animation.AddClip(animator.walk, "walk");
 		Spawn ();
 	}
- 
+ 	void OnDestroy()
+	{
+		Messenger.RemoveListener(typeof(ColorMessage),HandleColorMessage);
+	}
 	void Spawn ()
 	{
 		// reset the character's speed
@@ -194,9 +212,11 @@ public class CharacterController2D : MonoBehaviour
 			float targetSpeed = Mathf.Min (Mathf.Abs (h), 1.0f);
  
 			// Pick speed modifier
+			/*
 			if (Input.GetButton ("Fire2") && canControl)
 				targetSpeed *= movement.runSpeed;
 			else
+			*/
 				targetSpeed *= movement.walkSpeed;
  
 			movement.speed = Mathf.Lerp (movement.speed, targetSpeed, curSmooth);
@@ -233,6 +253,7 @@ public class CharacterController2D : MonoBehaviour
 				movement.verticalSpeed = CalculateJumpVerticalSpeed (jump.height);
 				movement.inAirVelocity = lastPlatformVelocity;
 				SendMessage ("DidJump", SendMessageOptions.DontRequireReceiver);
+				anim.SetBool("Jumping", true);
 			}
 		}
 	}
@@ -298,6 +319,7 @@ public class CharacterController2D : MonoBehaviour
 		jump.lastStartHeight = transform.position.y;
 		jump.lastButtonTime = -10f;
 		//animation.CrossFade("jump");
+		anim.SetBool("Jumping", true);
 	}
  
 	void UpdateEffects ()
@@ -317,7 +339,10 @@ public class CharacterController2D : MonoBehaviour
 	{
 		if (Input.GetButtonDown ("Jump") && canControl) {
 			jump.lastButtonTime = Time.time;
+			anim.SetBool("Jumping", true);
 		}
+		
+		anim.transform.localPosition = Vector3.zero;
  
 		UpdateSmoothedMovementDirection ();
  
@@ -371,6 +396,7 @@ public class CharacterController2D : MonoBehaviour
 			movement.inAirVelocity = Vector3.zero;
 			if (jump.jumping) {
 				jump.jumping = false;
+				anim.SetBool("Jumping", false);
 				jump.doubleJumping = false;
 				jump.canDoubleJump = false;
 				SendMessage ("DidLand", SendMessageOptions.DontRequireReceiver);
@@ -386,22 +412,60 @@ public class CharacterController2D : MonoBehaviour
 		
 		// Update Animations
 		UpdateAnimations();
+		
+		// Screenshotter
+		//StartCoroutine(UpdateScreengrab());
+	}
+	
+	public static Texture2D screen = null;
+	float nextScreenPos;
+	
+	IEnumerator UpdateScreengrab() {
+		float leftEdge = Camera.main.ScreenToWorldPoint(Vector3.zero).x;
+		if(leftEdge > nextScreenPos) {
+			nextScreenPos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)).x;
+			Texture2D newScreen = null;
+			if(screen.width >= Screen.width*10) {
+				yield return new WaitForEndOfFrame();
+				newScreen = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+				newScreen.ReadPixels(new Rect(0,0,Screen.width,Screen.height), 0, 0);
+				yield return 0;
+				byte[] bytes = screen.EncodeToPNG();
+				System.IO.File.WriteAllBytes(Application.dataPath+"/levelScreenshot-"+System.DateTime.Now.ToString("yyyyMMddhhmmss")+".png", bytes);
+				DestroyObject(screen);
+			}
+			else{
+				newScreen = new Texture2D(screen.width+Screen.width, Screen.height, TextureFormat.RGB24, false);			
+				yield return new WaitForEndOfFrame();
+				newScreen.SetPixels(0,0,screen.width,screen.height, screen.GetPixels());
+				yield return 0;
+				yield return new WaitForEndOfFrame();
+				newScreen.ReadPixels(new Rect(0,0, Screen.width, Screen.height), screen.width, 0);
+			}
+			if(newScreen != null) {
+				newScreen.Apply();
+				screen = newScreen;
+			}
+		}
 	}
 	
 	void UpdateAnimations() 
 	{
+		anim.SetFloat("Speed", movement.velocity.x);
+		//anim.SetBool("Jumping", IsJumping());
 		if(IsMoving() && !IsJumping() && Mathf.Abs(movement.velocity.x) > 5f) {
-			animation.CrossFade("run");
+		//	animation.CrossFade("run");
 		}
 		else if(!IsJumping() && Mathf.Abs(movement.velocity.x) > 0.5f) {
-			animation.CrossFade("walk");
+		//	animation.CrossFade("walk");
 		}
 		else if(!IsMoving() && Mathf.Abs(movement.velocity.x) < 0.5f && !IsJumping()) {
-			animation.CrossFade("idle");
+		//	animation.CrossFade("idle");
 		}
 		else if(IsJumping()) {
-			if(!animation.IsPlaying("jump"))
-				animation.Play("jump");
+			
+		//	if(!animation.IsPlaying("jump"))
+		//		animation.Play("jump");
 		}
 	}
  
@@ -472,5 +536,22 @@ public class CharacterController2D : MonoBehaviour
 	{
 		canControl = controllable;
 	}
-
+	float MAX_GRAVITY = 60;
+	float MIN_GRAVITY = 20;
+	float MIN_WALK_SPEED = 10;
+	float MAX_WALK_SPEED = 15;
+	
+	public float MIN_JUMP_HEIGHT = 1;
+	public float MAX_JUMP_HEIGHT = 10;
+	void HandleColorMessage(Message msg) {
+		ColorMessage message = msg as ColorMessage;
+		if(message != null) {
+			movement.gravity = MAX_GRAVITY-message.Percent*MIN_GRAVITY;
+			float j = MIN_JUMP_HEIGHT+message.Percent*(MAX_JUMP_HEIGHT-MIN_JUMP_HEIGHT);
+			jump.height = j;
+			jump.extraHeight = 2*j;
+			jump.doubleJumpHeight = 2*j;
+			//movement.walkSpeed = message.Percent*(MAX_WALK_SPEED-MIN_WALK_SPEED)+MIN_WALK_SPEED;
+		}
+	}
 }
