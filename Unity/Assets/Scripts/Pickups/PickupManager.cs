@@ -20,6 +20,7 @@ public class PickupManager : MonoBehaviour {
 	void Start () {
 		
 	}
+	
 	void HandleStageCreatedMessage(Message msg) {
 		StageCreatedMessage message = msg as StageCreatedMessage;
 		if(message != null) {
@@ -40,10 +41,23 @@ public class PickupManager : MonoBehaviour {
 			}
 		}
 	}
+	
 	void HandlePickupCollectedMessage(Message msg) {
 		PickupCollectedMessage message = msg as PickupCollectedMessage;
 		if(message != null) {
 			pickupsGotten++;
+			// LOOTSIE
+			if (pickupsGotten == 10) {
+				Lootsie.AchievementReached("TheColors");
+			} else if (pickupsGotten == 20) {
+				Lootsie.AchievementReached("DayTripper");
+			} else if (pickupsGotten == 30) {
+				Lootsie.AchievementReached("TheLongAndWindingRoad");
+			} else if (pickupsGotten == 40) {
+				Lootsie.AchievementReached("AcrossTheUniverse");
+			} else if (pickupsGotten == 50) {
+				Lootsie.AchievementReached("ThisColorTastesLikeGaming");
+			}
 		}
 	}
 }
