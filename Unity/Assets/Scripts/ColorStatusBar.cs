@@ -38,6 +38,7 @@ public class ColorStatusBar : MonoBehaviour {
 				StartCoroutine(EndBlissMode());
 			}
 		}
+		/*
 		if(Input.GetKeyDown(KeyCode.A)) {
 			if(!blissedOutMode) {
 				blissedOutMode = true;
@@ -46,6 +47,7 @@ public class ColorStatusBar : MonoBehaviour {
 				StartCoroutine(EndBlissMode());
 			}
 		}
+		*/
 	}
 	
 	IEnumerator EndBlissMode() {
