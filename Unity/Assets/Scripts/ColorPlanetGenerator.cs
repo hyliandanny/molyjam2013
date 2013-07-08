@@ -23,7 +23,7 @@ public class ColorPlanetGenerator : MonoBehaviour {
 	void StageCreated(Message msg) {
 		StageCreatedMessage myMsg = msg as StageCreatedMessage;
 		if(myMsg != null) {
-			Debug.Log("Got Message");
+//			Debug.Log("Got Message");
 			allColors.Add(new Color(myMsg.R, myMsg.G, myMsg.B));
 		}
 	}
@@ -45,7 +45,7 @@ public class ColorPlanetGenerator : MonoBehaviour {
         renderer.material.mainTexture = texture;
 		
 		int lineWidth = (int)Mathf.Round(((float)texture.width/2f) / allColors.Count);
-		Debug.Log("Line width " + lineWidth + ", texture size " + texSize + ", allColors " + allColors.Count);
+	//	Debug.Log("Line width " + lineWidth + ", texture size " + texSize + ", allColors " + allColors.Count);
 		//rescale the colors to be the right width
 		List<Color> newColors = new List<Color>(texture.width/2);
 		for(int i = 0; i < allColors.Count; i++){
