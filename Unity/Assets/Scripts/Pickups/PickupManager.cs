@@ -20,6 +20,7 @@ public class PickupManager : MonoBehaviour {
 		Messenger.AddListener(typeof(StageCreatedMessage),HandleStageCreatedMessage);
 		Messenger.AddListener(typeof(ColorMessage),HandleColorMessage);
 		Messenger.AddListener(typeof(PickupCollectedMessage), HandlePickupCollectedMessage);
+		Messenger.AddListener(typeof(BlissedOutMessage),HandleBlissedOutMessage);
 		if (instance == null)
 			instance = this;
 	}
@@ -27,6 +28,7 @@ public class PickupManager : MonoBehaviour {
 		Messenger.RemoveListener(typeof(StageCreatedMessage),HandleStageCreatedMessage);
 		Messenger.RemoveListener(typeof(ColorMessage),HandleColorMessage);
 		Messenger.RemoveListener (typeof(PickupCollectedMessage), HandlePickupCollectedMessage);
+		Messenger.RemoveListener(typeof(BlissedOutMessage),HandleBlissedOutMessage);
 	}
 	
 	// Use this for initialization
@@ -34,11 +36,26 @@ public class PickupManager : MonoBehaviour {
 		
 	}
 	
+	bool blissedOut = false;
+	void HandleBlissedOutMessage(Message msg) {
+		BlissedOutMessage message = msg as BlissedOutMessage;
+		if(message != null) {
+			blissedOut = message.blissingOut;
+		}
+	}
 	void HandleStageCreatedMessage(Message msg) {
 		StageCreatedMessage message = msg as StageCreatedMessage;
 		if(message != null) {
 			for(float x = message.StartX + Random.Range(1f,5f); x < message.EndX; x += Random.Range(8,15)) {
-				int i = Random.Range(0,pickupPrefabs.Length);
+				int i = 0;
+				//Black Sphere
+				if(!blissedOut && Random.value >= .925) {
+					i = pickupPrefabs.Length - 1;
+				}
+				//Other
+				else {
+					i = Random.Range(0,pickupPrefabs.Length - 1);
+				}
 				RaycastHit hit;
 				if(Physics.Raycast(new Vector3(x,1000,0),Vector3.down,out hit)) {
 					float y = hit.point.y + Random.Range(MIN_HEIGHT,height);
