@@ -102,6 +102,11 @@ public class LevelBuilder : MonoBehaviour {
 			else if(message.Pickup.pickupType == PickupType.B) {
 				b = Mathf.Min(1,b+plus);
 			}
+			else if(message.Pickup.pickupType == PickupType.Black) {
+				r = g = b = 0f;
+				recentPlatformGenerator.SetBackgroundColor(r,g,b);
+				recentPlatformGenerator.SetForegroundColor(r,g,b);
+			}
 			Messenger.Invoke(typeof(ColorMessage),new ColorMessage(r,g,b));
 		}
 	}

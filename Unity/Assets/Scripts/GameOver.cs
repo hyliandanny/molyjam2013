@@ -19,6 +19,7 @@ public class GameOver : MonoBehaviour {
 			Vector3 nPos = planet.transform.localPosition;
 			nPos.x = 0;
 			nPos.y = 0;
+			nPos.z = 2f;
 			planet.transform.localPosition = nPos;
 		}
 		

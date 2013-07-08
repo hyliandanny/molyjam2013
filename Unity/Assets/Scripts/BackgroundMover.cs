@@ -39,9 +39,9 @@ public class BackgroundMover : MonoBehaviour {
 		
 		float delta = 0;
 		if(recentPlatformGenerator) {
-			delta = lastY-pg.mStartHeight;
+			delta = recentPlatformGenerator.transform.localPosition.y + lastY-pg.mStartHeight;
 		}
-		pg.transform.localPosition = new Vector3(x,pg.transform.localPosition.y + delta,0);
+		pg.transform.localPosition = new Vector3(x,delta,0);
 		
 		x += pg.mLength;
 		lastY = pg.mEndHeight;

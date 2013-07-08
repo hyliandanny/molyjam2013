@@ -38,6 +38,7 @@ public class ColorStatusBar : MonoBehaviour {
 				StartCoroutine(EndBlissMode());
 			}
 		}
+		/*
 		if(Input.GetKeyDown(KeyCode.A)) {
 			if(!blissedOutMode) {
 				blissedOutMode = true;
@@ -46,10 +47,11 @@ public class ColorStatusBar : MonoBehaviour {
 				StartCoroutine(EndBlissMode());
 			}
 		}
+		*/
 	}
 	
 	IEnumerator EndBlissMode() {
-		yield return new WaitForSeconds(15f);
+		yield return new WaitForSeconds(10f);
 		flareEffect.enabled = false;
 		red.transform.localScale = redS;
 		blue.transform.localScale = blueS;
