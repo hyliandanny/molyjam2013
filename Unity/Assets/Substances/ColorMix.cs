@@ -3,6 +3,7 @@ using System.Collections;
 
 public class ColorMix : MonoBehaviour {
 	public bool useSharedMaterial = false;
+	public bool useComplimentaryColor = false;
 	
 	float r;
 	float g;
@@ -32,6 +33,16 @@ public class ColorMix : MonoBehaviour {
 		movingB = Mathf.Clamp(Mathf.MoveTowards(movingB, b, Time.deltaTime),0,b);
 			
 		Color mixedColor = new Color(movingR, movingG, movingB, 1f);
+		
+		if(useComplimentaryColor){
+			HSLColor hsl = HSLColor.FromRGBA(mixedColor);
+			hsl.h += 180f - 15f;
+			if(hsl.h > 360f){
+				hsl.h -= 360f;
+			}
+			mixedColor = hsl.ToRGBA();		//tint the object
+		}
+		
 		if(useSharedMaterial) {
 			renderer.sharedMaterial.SetFloat("_BlendR", movingR);
 			renderer.sharedMaterial.SetFloat("_BlendG", movingG);
