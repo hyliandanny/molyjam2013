@@ -15,7 +15,9 @@ public class PathObjectManager : MonoBehaviour {
 			int i = Random.Range(0,prefabs.Length);
 			GameObject go = (GameObject)Instantiate(prefabs[i]);
 			go.AddComponent<PathObject>();
-			go.transform.position = new Vector3(x,hit.point.y, 2);
+			go.transform.position = new Vector3(x,hit.point.y + Random.Range (-30, 30), -10);
+			float scaleFactor = Random.Range(0f, 5.01f); 
+			go.transform.localScale += new Vector3(scaleFactor, scaleFactor, 0);
 			float rot = Random.value;
 			if(hit.normal.x < 0) {
 				rot = -rot;
@@ -36,7 +38,7 @@ public class PathObjectManager : MonoBehaviour {
 			
 			float d = 0;
 			while(d+startX < endX) {
-				d += Random.Range(3,5);
+				d += Random.Range(5,10);
 				CreateHappyObject(d+startX);
 			}
 		}
