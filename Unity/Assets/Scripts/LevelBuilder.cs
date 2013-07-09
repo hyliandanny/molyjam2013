@@ -54,9 +54,19 @@ public class LevelBuilder : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		r = Mathf.Max(0,r-0.1f*Time.deltaTime);
-		g = Mathf.Max(0,g-0.1f*Time.deltaTime);
-		b = Mathf.Max(0,b-0.1f*Time.deltaTime);
+		if(!gameLost) {
+			r = Mathf.Max(0,r-0.1f*Time.deltaTime);
+			g = Mathf.Max(0,g-0.1f*Time.deltaTime);
+			b = Mathf.Max(0,b-0.1f*Time.deltaTime);
+		}
+		else {
+			//this will clamp sin between 0.85 and 0.95
+			r = 0.85f+Mathf.Abs(Mathf.Sin(Time.timeSinceLevelLoad))/10;
+			g = 0.85f+Mathf.Abs(Mathf.Sin(Time.timeSinceLevelLoad+10))/10;
+			b = 0.85f+Mathf.Abs(Mathf.Sin(Time.timeSinceLevelLoad+20))/10;
+			Messenger.Invoke(typeof(ColorMessage),new ColorMessage(r,g,b));
+			return;
+		}
 		
 		if(cheating) {
 			r = Mathf.Max(0.3f,r);

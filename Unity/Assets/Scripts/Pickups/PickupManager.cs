@@ -49,7 +49,7 @@ public class PickupManager : MonoBehaviour {
 			for(float x = message.StartX + Random.Range(1f,5f); x < message.EndX; x += Random.Range(8,15)) {
 				int i = 0;
 				//Black Sphere
-				if(!blissedOut && Random.value >= .925) {
+				if(!blissedOut && Random.value >= .95) {
 					i = pickupPrefabs.Length - 1;
 				}
 				//Other
@@ -73,7 +73,7 @@ public class PickupManager : MonoBehaviour {
 		if(message != null) {
 			if(message.Pickup.pickupType != PickupType.Black)
 				pickupsGotten++;
-			/*
+			
 			// LOOTSIE
 			Debug.Log ("Obtained " + pickupsGotten + " essences.");
 			if (pickupsGotten == 10) {
@@ -87,7 +87,7 @@ public class PickupManager : MonoBehaviour {
 			} else if (pickupsGotten == 50) {
 				Lootsie.AchievementReached("ThisColorTastesLikeGaming");
 			}
-			*/
+			
 		}
 	}
 	
