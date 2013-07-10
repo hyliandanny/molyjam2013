@@ -35,7 +35,7 @@ public class PathObjectManager : MonoBehaviour {
 			go.transform.Translate(0, go.renderer.bounds.extents.y*0.8f, 0, Space.Self);	//move it up a bit so just the base is touching
 			
 			HSLColor hsl = HSLColor.FromRGBA(color);
-			Debug.Log("from " + color + " to " + hsl);
+			//Debug.Log("from " + color + " to " + hsl);
 			hsl.h += 180f + 15f;
 			if(hsl.h > 360f){
 				hsl.h -= 360f;

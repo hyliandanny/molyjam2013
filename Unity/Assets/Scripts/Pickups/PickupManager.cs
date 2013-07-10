@@ -75,7 +75,7 @@ public class PickupManager : MonoBehaviour {
 				pickupsGotten++;
 			
 			// LOOTSIE
-			Debug.Log ("Obtained " + pickupsGotten + " essences.");
+			//Debug.Log ("Obtained " + pickupsGotten + " essences.");
 #if LOOTSIE
 			if (pickupsGotten == 10) {
 				Lootsie.AchievementReached("TheColors");
