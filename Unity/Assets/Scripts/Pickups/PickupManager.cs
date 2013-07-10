@@ -76,6 +76,7 @@ public class PickupManager : MonoBehaviour {
 			
 			// LOOTSIE
 			Debug.Log ("Obtained " + pickupsGotten + " essences.");
+#if LOOTSIE
 			if (pickupsGotten == 10) {
 				Lootsie.AchievementReached("TheColors");
 			} else if (pickupsGotten == 20) {
@@ -87,7 +88,7 @@ public class PickupManager : MonoBehaviour {
 			} else if (pickupsGotten == 50) {
 				Lootsie.AchievementReached("ThisColorTastesLikeGaming");
 			}
-			
+#endif
 		}
 	}
 	
