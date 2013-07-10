@@ -32,7 +32,7 @@ public class PathObjectManager : MonoBehaviour {
 			
 			go.transform.eulerAngles = tempAngles;					//set the object angle
 			go.transform.localScale = Random.Range(1f,4f)* go.transform.localScale;			//give it a little random sizing
-			go.transform.Translate(0, go.renderer.bounds.extents.y*0.8f, 0, Space.Self);	//move it up a bit so just the base is touching
+			go.transform.Translate(0, go.renderer.bounds.extents.y*0.8f, -5, Space.Self);	//move it up a bit so just the base is touching
 			
 			HSLColor hsl = HSLColor.FromRGBA(color);
 			Debug.Log("from " + color + " to " + hsl);

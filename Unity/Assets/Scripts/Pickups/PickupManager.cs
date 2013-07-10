@@ -49,7 +49,7 @@ public class PickupManager : MonoBehaviour {
 			for(float x = message.StartX + Random.Range(1f,5f); x < message.EndX; x += Random.Range(8,15)) {
 				int i = 0;
 				//Black Sphere
-				if(!blissedOut && Random.value >= .95) {
+				if(!blissedOut && Random.value >= .975) {
 					i = pickupPrefabs.Length - 1;
 				}
 				//Other
