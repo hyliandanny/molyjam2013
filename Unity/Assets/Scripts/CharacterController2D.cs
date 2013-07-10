@@ -125,6 +125,7 @@ public class CharacterController2D : MonoBehaviour
 	Vector3 activeGlobalPlatformPoint;
 	Vector3 lastPlatformVelocity;
 	bool blissedOut = false;
+	public Intro theIntro;
  
 	// This is used to keep track of special effects in UpdateEffects ();
 	bool areEmittersOn = false;
@@ -144,6 +145,8 @@ public class CharacterController2D : MonoBehaviour
 //		animation.AddClip(animator.run, "run");
 //		animation.AddClip(animator.walk, "walk");
 		Spawn ();
+		enabled=false;
+		StartCoroutine(theIntro.PlayIntro());
 	}
 	
 	void HandleBliss(Message msg) {
