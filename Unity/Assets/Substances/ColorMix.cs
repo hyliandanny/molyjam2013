@@ -34,14 +34,14 @@ public class ColorMix : MonoBehaviour {
 			
 		Color mixedColor = new Color(movingR, movingG, movingB, 1f);
 		
-		if(useComplimentaryColor){
+		/*if(useComplimentaryColor){
 			HSLColor hsl = HSLColor.FromRGBA(mixedColor);
 			hsl.h += 180f - 15f;
 			if(hsl.h > 360f){
 				hsl.h -= 360f;
 			}
 			mixedColor = hsl.ToRGBA();		//tint the object
-		}
+		}*/
 		
 		if(useSharedMaterial) {
 			renderer.sharedMaterial.SetFloat("_BlendR", movingR);
